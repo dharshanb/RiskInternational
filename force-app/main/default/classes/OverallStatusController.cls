@@ -1,5 +1,5 @@
 public class OverallStatusController {
-//000
+
     public static String conProjectID {get;set;}
     public OverallStatusController(){
         List<Project_Team__c> projectTeam = [SELECT Id,User__c,Project__r.Name,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() LIMIT 1];
@@ -279,15 +279,16 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Contact> getContact(String ProjectId) {
+    public static List<Project_Team__c> getContact(String ProjectId) {
         try {
-            String accId;
-            List<Project__c> project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            if(project.size() > 0){
-                accId = project[0].Account__r.Id;
-            }
-            List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId LIMIT 3];
-            return contactList;
+            //String accId;
+            //List<Project__c> project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
+            //if(project.size() > 0){
+            //    accId = project[0].Account__r.Id;
+            //}
+            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId LIMIT 3];
+            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
+            return ProTEams;
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -295,13 +296,14 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Contact> getContactListByProject(String ProjectId) {
+    public static List<Project_Team__c> getContactListByProject(String ProjectId) {
         try {
-            String accId;
-            Project__c project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            accId = project.Account__r.Id;
-            List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId LIMIT 3];
-            return contactList;
+            //String accId;
+            //Project__c project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
+            //accId = project.Account__r.Id;
+            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId LIMIT 3];
+            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
+            return ProTEams;
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -309,15 +311,16 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Contact> getContactForPopup(String ProjectId) {
+    public static List<Project_Team__c> getContactForPopup(String ProjectId) {
         try {
-            String accId;
-            List<Project__c> project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            if(project.size() > 0){
-                accId = project[0].Account__r.Id;
-            }
-            List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId];
-            return contactList;
+            //String accId;
+            //List<Project__c> project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
+            //if(project.size() > 0){
+            //    accId = project[0].Account__r.Id;
+            //}
+            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId];
+            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
+            return ProTEams;
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -325,13 +328,14 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Contact> getContactForPopupListByProject(String ProjectId) {
+    public static List<Project_Team__c> getContactForPopupListByProject(String ProjectId) {
         try {
-            String accId;
-            Project__c project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            accId = project.Account__r.Id;
-            List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId];
-            return contactList;
+            //String accId;
+            //Project__c project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
+            //accId = project.Account__r.Id;
+            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId];
+            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
+            return ProTEams;
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -341,7 +345,7 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static Project__c getAccountByProFilter(String ProjectId) {
         try {
-            Project__c accNameFromProject = [SELECT Id,Name, Account__r.Name FROM Project__c WHERE Id =: ProjectId];
+            Project__c accNameFromProject = [SELECT Id,Name,Project_Title__c,Account__r.Name FROM Project__c WHERE Id =: ProjectId];
             return accNameFromProject;
         }
         catch (Exception e) {
@@ -497,7 +501,7 @@ public class OverallStatusController {
         // system.debug('getProjectListByAccount>UserInfo.getUserId()>>'+UserInfo.getUserId());
         //return [SELECT Id,Project__r.Name,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() AND AccountId__c=: AccountId];
         System.debug('AccountId>>'+AccountId);
-         return [SELECT Id,Name FROM Project__c WHERE Account__c =: AccountId];
+         return [SELECT Id,Name,Project_Title__c FROM Project__c WHERE Account__c =: AccountId];
     }
 
     @AuraEnabled(cacheable=true)
@@ -529,6 +533,17 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static List<Project__c> getDefaultProNameByProFilter(String ProjectId){
         return [SELECT Id, Name FROM Project__c where Id =: ProjectId];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Project_Team__c> getteamsListByProject(String ProjectId) {
+        try {
+            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
+            return ProTEams;
+        }
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 
 }

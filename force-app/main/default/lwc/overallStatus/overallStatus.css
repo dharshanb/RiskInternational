@@ -22,8 +22,9 @@ background-color: #ffffff;
 } */
 
 .active-tab{
-border-color: blue;
+/* border-color: blue; */
 border-width: unset;
+border: 2px solid #2a9fd8;
 }
 
 /* .tab{

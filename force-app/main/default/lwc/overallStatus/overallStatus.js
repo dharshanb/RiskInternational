@@ -126,7 +126,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         .then(result=> {
         let arr = [];
         for(var i = 0; i< result.length; i++){
-        arr.push({ label: result[i].Name, value: result[i].Id});
+        arr.push({ label: result[i].Project_Title__c, value: result[i].Id});
         }
         this.pprojectList = arr;
         this.placeholderProName = 'Select Project';
@@ -769,7 +769,7 @@ handleAction3(event){
             type: 'standard__recordPage',
             attributes: {
                 "recordId": Event.target.value,
-                "objectApiName": "Contact",
+                "objectApiName": "User",
                 "actionName": "view"
             },
         });
@@ -855,7 +855,7 @@ handleAction3(event){
         if (data) {
             this.accName = data.Account__r.Name;
             this.placeholderAccount = data.Account__r.Name;
-            this.placeholderProName = data.Name;
+            this.placeholderProName = data.Project_Title__c;
             this.accNameForConPopup = data.Account__r.Name;
         }
         else if (error) {

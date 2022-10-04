@@ -31,13 +31,13 @@
                         <!--CONTACT DATATABLE STARTS-->
                             <table class="slds-table slds-p-bottom_medium">
                                 <template for:each={mypopupcontactdatalist} for:item="con">
-                                    <tr key={con.Id}>
+                                    <tr key={con.User__c}>
                                         <td class="slds-var-m-around_small" style="width:90px;">
                                             <img src={thcharimgforconpopup} class="imgClassPopup"/>
                                         </td>
                                         <td>
-                                            <lightning-button variant="Base" label={con.Name} onclick={handleChangeInPopup} value={con.Id}></lightning-button>
-                                            <p><lightning-icon size="x-small" icon-name="utility:call" alternative-text="call" title="call" class="slds-m-right_small"></lightning-icon>{con.Phone}</p>
+                                            <lightning-button variant="Base" label={con.User__r.Name} onclick={handleChangeInPopup} value={con.User__c}></lightning-button>
+                                            <p><lightning-icon size="x-small" icon-name="utility:call" alternative-text="call" title="call" class="slds-m-right_small"></lightning-icon>{con.User__r.Phone}</p>
                                         </td>
                                         <td><lightning-icon size="x-small" icon-name="utility:email" alternative-text="email" title="email"></lightning-icon></td>
                                         <td><lightning-icon size="x-small" icon-name="utility:quick_text" alternative-text="quick_text" title="quick_text"></lightning-icon></td>
