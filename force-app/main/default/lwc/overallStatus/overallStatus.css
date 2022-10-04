@@ -9,36 +9,38 @@ display: inline-block;
 list-style-type: none;
 } */
 
-span{
+
+lightning-card{
+    --sds-c-card-color-background: whitesmoke;
+}
+
+/* span{
 text-decoration: none;
 padding: 7px 35px;
 color: rgb(0, 0, 0);
 background-color: #ffffff;
+} */
+
+.active-tab{
+border-color: blue;
+border-width: unset;
 }
 
-span.active-tab{
-color: rgb(0, 0, 0);
-/* background-color: #bae7be; */
-border-bottom-style :groove;
-/* border-style: ridge;
-border: outset; */
-}
-
-.tab{
+/* .tab{
 display: none;
 }
 
 .active-tab-content{
 display: block;
-}
+} */
 
-.tab h2{
+/* .tab h2{
 font-size: 20px;
 }
 
 .tab p{
 font-size: 15px;
-}
+} */
 /* TABSET STYLE ENDS */
 
 .imgClass{

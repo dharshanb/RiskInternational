@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="Dashboard" class="slds-scrollable--y">
+    <lightning-card title="DASHBOARD" class="slds-scrollable--y" >
         <!-- <div style="width: 20%; display: inline-block;">
                 <lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:chevronright" alternative-text="chevronright" title="chevronright"></lightning-icon>Dashboard
             </div> -->
@@ -58,85 +58,68 @@
         <!-- </div> -->
         <!-- TESTING ENDS -->
 
-        <!--TABSET STARTS-->
-        <!--LAYOUT ITEM STARTS-->
-        <lightning-layout-item padding="around-small" size="12">
-            <lightning-layout>
+        <div class="action1" style="background-color: whitesmoke;">
 
-                <!-- OVERALL BUDGET 1 STARTS-->
-                <lightning-layout-item padding="around-small" size="4">
-                    <!-- <span class="slds-text-link navigation"></span> -->
-                    <div class="page-section page-right slds-box slds-box_small">
-                        <center><h1><span href="#" class="active-tab" data-tab-id="tab1">OVERALL BUDGET</span></h1></center>
-                        <!--DISPLAY EMPLYOYEES AND LIVES COUNT STARTS--><br/>
-                        <div>
-                            <div style="width: 50%; display: inline-block;" class="slds-p-bottom_medium slds-text-align_center">
-                                <div style="FONT-SIZE: X-LARGE;font-weight: 400;"></div><br/>
-                                YTD Pulse
-                            </div>
+        <!-- OVERALL BUDGET STARTS-->
+        <div onclick={handleAction1} class="action11 slds-box slds-box_small active-tab" data-tab-id="tab1" style="width: 33.33%; display: inline-block;background-color: rgb(255, 255, 255);">
+            <center><h1>OVERALL BUDGET</h1></center><br/>
+            <div>
+                <div style="width: 50%; display: inline-block;" class="slds-p-bottom_medium slds-text-align_center">
+                    <div style="FONT-SIZE:xxx-large;font-weight: 400;"></div><br/>
+                    YTD Pulse
+                </div>
 
-                            <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                                <div style="FONT-SIZE: X-LARGE;font-weight: 400;">745K</div><br/>
-                                $Surplus this month
-                            </div>
-                        </div>
-                        <!--DISPLAY EMPLYOYEES AND LIVES COUNT ENDS-->
-                    </div>
-                </lightning-layout-item>
-                <!-- OVERALL BUDGET 1 ENDS-->
+                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
+                    <div style="FONT-SIZE: xxx-large;font-weight: 400;">745K</div><br/>
+                    $Surplus this month
+                </div>
+            </div>
+        </div>
+        <!-- OVERALL BUDGET ENDS-->
 
-                <!-- TOTAL ENROLLMENT 2 STARTS-->
-                <lightning-layout-item padding="around-small" size="4">
-                    <div class="page-section page-right slds-box slds-box_small">
-                        <center><h1><span href="#" class="" data-tab-id="tab2">TOTAL ENROLLMENT</span></h1></center>
-                        <!--DISPLAY EMPLYOYEES AND LIVES COUNT STARTS--><br/>
-                        <div>
-                            <div style="width: 50%; display: inline-block;" class="slds-p-bottom_medium slds-text-align_center">
-                                <div style="FONT-SIZE: X-LARGE;font-weight: 400;">{getEmpCount}</div><br/>
-                                Employee
-                            </div>
+        <!-- TOTAL ENROLLMENT 2 STARTS-->
+        <div onclick={handleAction2} class="action11 slds-box slds-box_small" data-tab-id="tab2" style="width: 33.33%; display: inline-block;background-color: rgb(255, 255, 255);">
+            <center><h1>TOTAL ENROLLMENT</h1></center><br/>
+            <div>
+                <div style="width: 50%; display: inline-block;" class="slds-p-bottom_medium slds-text-align_center">
+                    <div style="FONT-SIZE: xxx-large;font-weight: 400;">{getEmpCount}</div><br/>
+                    Employee
+                </div>
 
-                            <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                                <div style="FONT-SIZE: X-LARGE;font-weight: 400;">{getLivesCount}</div><br/>
-                                Lives
-                            </div>
-                        </div>
-                        <!--DISPLAY EMPLYOYEES AND LIVES COUNT ENDS-->
-                    </div>
-                </lightning-layout-item>
-                <!-- TOTAL ENROLLMENT 2 ENDS-->
+                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
+                    <div style="FONT-SIZE: xxx-large;font-weight: 400;">{getLivesCount}</div><br/>
+                    Lives
+                </div>
+            </div>
+        </div>
+        <!-- TOTAL ENROLLMENT 2 ENDS-->
 
-                <!-- OVERALL CLAIM COSTS 3 STARTS-->
-                <lightning-layout-item padding="around-small" size="4">
-                    <div class="page-section page-right slds-box slds-box_small">
-                        <center><h1><span href="#" class="" data-tab-id="tab3">OVERALL CLAIM COSTS</span></h1></center><br/>
-                        <div>
-                            <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                                    <lightning-icon icon-name="standard:document_reference" alternative-text="document_reference" title="document_reference"></lightning-icon>
-                                <br/>
-                            <div style="FONT-SIZE:LARGE;font-weight: 400;">$756</div><br/>
-                            Medical Claims
-                            </div>
+        <!-- OVERALL CLAIM COSTS 3 STARTS-->
+        <div onclick={handleAction3} class="action11 slds-box slds-box_small" data-tab-id="tab3" style="width: 33.33%; display: inline-block;background-color: rgb(255, 255, 255);">
+            <center><h1>OVERALL CLAIM COSTS</h1></center><br/>
+            <div>
+                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
+                        <lightning-icon icon-name="standard:document_reference" alternative-text="document_reference" title="document_reference"></lightning-icon>
+                    <br/>
+                <div style="FONT-SIZE:x-large;font-weight: 400;">$756</div><br/>
+                Medical Claims
+                <div style="padding-bottom: 16px;"></div>
+                </div>
 
-                            <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                                    <lightning-icon icon-name="standard:med_rec_statement_recommendation" alternative-text="med_rec_statement_recommendation" title="med_rec_statement_recommendation"></lightning-icon>
-                                <br/>
-                                <div style="FONT-SIZE:LARGE;font-weight: 400;">$756</div><br/>
-                                RX Claims(after rebate)
-                            </div>
-                        </div>
-                    </div>
-                </lightning-layout-item>
-                <!-- OVERALL CLAIM COSTS 3 ENDS-->
+                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
+                        <lightning-icon icon-name="standard:med_rec_statement_recommendation" alternative-text="med_rec_statement_recommendation" title="med_rec_statement_recommendation"></lightning-icon>
+                    <br/>
+                    <div style="FONT-SIZE:x-large;font-weight: 400;">$756</div><br/>
+                    RX Claims(after rebate)
+                </div>
+            </div>
+        </div>
+        <!-- OVERALL CLAIM COSTS 3 ENDS-->
 
-            </lightning-layout>
-        </lightning-layout-item>
-        <!--LAYOUT ITEM ENDS-->
-        <!--TABSET ENDS-->
-
-        <div class="tab active-tab-content" data-id="tab1">
-            <!--TAB 1 STARTS-->
-            <lightning-layout multiple-rows="true">
+        <!--TAB 1 CONTENT STARTS-->
+        <div class="tab slds-visible" data-id="tab1">
+                <template if:true={tabLoaded1}>
+                <lightning-layout multiple-rows="true">
                 <!--LAYOUT ITEM 1 STARTS-->
                 <!-- <lightning-layout-item padding="around-small" size="12">
                     <div class="slds-box slds-box_small">
@@ -158,12 +141,12 @@
                     <lightning-layout>
                         <!--DOCUMENT REPOSITORY STARTS-->
                         <lightning-layout-item padding="around-small" size="6">
-                            <div class="page-section page-right slds-box slds-box_small">
+                            <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
                                     <div style="display: inline-block;">DOCUMENT REPOSITORY</div>
                                     <div style="display: inline-block;float:right;"><lightning-button variant="Base" label="" onclick={navToFiles} value=""></lightning-button></div>
                             </div>
                             <!--FILES STARTS-->
-                            <div class="slds-box slds-box_small">
+                            <div class="slds-box slds-box_small" style="border: ridge;">
                                 <lightning-file-upload
                                             name="fileUploader"
                                             accept={acceptedFormats}
@@ -190,12 +173,12 @@
 
                         <!--YOUR TEAM STARTS-->
                         <lightning-layout-item padding="around-small" size="6">
-                            <div class="page-section page-right slds-box slds-box_small">
-                                <div style="">{accName} Team({conCount})</div>
-                                <!-- <div style="display: inline-block;float:right"><lightning-button variant="Base" label="See all Accounts" onclick={navToAccount} value=""></lightning-button></div> -->
+                            <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
+                                <div style="display: inline-block;">{accName} Team({conCount})</div>
+                                <div style="display: inline-block;float:right"><lightning-button variant="Base" label="Create Project Team" onclick={newProjectTeam} value=""></lightning-button></div>
                             </div>
-                            <div class="page-section page-right slds-box slds-box_small">
-                                <table class="slds-table slds-p-bottom_medium">
+                            <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
+                                <table class="slds-table slds-p-bottom_medium" style="background-color: whitesmoke;">
                                     <template for:each={conList} for:item="con">
                                         <tr key={con.Id}>
                                             <td class="slds-var-m-around_small" style="width:90px;">
@@ -210,7 +193,7 @@
                                         </tr>
                                     </template>
                                 </table>
-                                <div class="slds-p-top_medium" style="padding-left:80%"><lightning-button variant="success" label="See all" title="See all" onclick={handlePUPForContact} class="slds-m-left_x-small"></lightning-button></div>
+                                <div class="slds-p-top_medium" style="padding-left:80%"><lightning-button variant="brand-outline" label="See all" title="See all" onclick={handlePUPForContact} class="slds-m-left_x-small"></lightning-button></div>
                             </div>
                         </lightning-layout-item>
                         <!--YOUR TEAM ENDS-->
@@ -219,12 +202,17 @@
                 <!-- POP UP WINDOW OF CONTACTS STARTS -->
                 <c-modal-Popup-For-Contact mypopupcontactdatalist={myPopupContactDataList} thcharimgforconpopup={thCharImgForConPopup} concountpopup={conCountPopup} accnameforconpopup={accNameForConPopup}></c-modal-Popup-For-Contact>
                 <!-- POP UP WINDOW OF CONTACTS ENDS -->
+
+                <!-- POP UP FOR PROJECT RECORD CREATION STARTS -->
+                <c-modal-Popoup-For-Creatept></c-modal-Popoup-For-Creatept>
+                <!-- <c-popup-For-Projectteam_Rec_Create></c-popup-For-Projectteam_Rec_Create> -->
+                <!-- POP UP PROJECT RECORD CREATION ENDS -->
                 <!--LAYOUT ITEM 2 ENDS-->
 
                 <!--LAYOUT ITEM 3 STARTS-->
                 <lightning-layout-item padding="around-small" size="12">
-                    <div class="page-section page-right slds-box slds-box_small">
-                        <div class="page-section page-right slds-box slds-box_small">
+                    <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
+                        <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
                             <div style="">LATEST NEWS FOR YOU</div>
                                 <!-- <div style="display: inline-block;float:right"><lightning-button variant="Base" label="Go to Settings" onclick={navToSettings} value=""></lightning-button></div> -->
                         </div>
@@ -233,18 +221,18 @@
 
                     <!-- PART 1 STARTS -->
                     <lightning-layout-item padding="around-small" size="6">
-                        <div class="page-section page-right slds-box slds-box_small">
+                        <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
                             <h2><b>Employers Alter Benefits to Attract, Retain Employees, SHRM Finds</b></h2>
                             <p>Explaining the value of the benefits mix also keeps talent onboard</p><br/>
                             <p>As hiring and keeping talented employees becomes more difficult, HR professionals are strategically leveraging employee benefits as a recruitment and retention tool, according to 2016 Strategic Benefits survey findings released by the Society for Human Resource Management (SHRM) on Nov. 30.</p><br/>
-                            <p>From a randomly selected sample of SHRM members, 738 HR professionals participated in this year's survey, which was conducted in April and May. Analyses of the results are posted online in five separate reports....<span class="slds-text-link">More</span>.</p>
+                            <p>From a randomly selected sample of SHRM members, 738 HR professionals participated in this year's survey, which was conducted in April and May. Analyses of the results are posted online in five separate reports....<span class="slds-text-link" style="background-color: whitesmoke;">more</span></p>
                         </div>
                     </lightning-layout-item>
                     <!-- PART 1 ENDS -->
 
                     <!-- PART 2 STARTS -->
                     <lightning-layout-item padding="around-small" size="6">
-                        <div class="page-section page-right slds-box slds-box_small">
+                        <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
                             <h2><b>The pandemic is changing Employee Benefits</b></h2><br/>
                             <h2>by Tim Allen</h2><br/>
                             <p>April 07, 2021</p>
@@ -254,7 +242,7 @@
                             <!--riskInt IMAGE STARTS-->
                             <br/><br/>
                             <h2><b>Key Benefits are Expanding and Shifting</b></h2><br/>
-                            <p>Those we spoke to confirmed the toll the pandemic has had on their employees and their business: decreased productivity and retention, increased absenteeism, and declining mental health. That's why almost all (98%) of the leaders we surveyed plan to newly offer or expand at least one employee benefit, prioritizing the ones workers deem most essential, and senior care benefits, flexibility around when...<span class="slds-text-link">More</span>.</p>
+                            <p>Those we spoke to confirmed the toll the pandemic has had on their employees and their business: decreased productivity and retention, increased absenteeism, and declining mental health. That's why almost all (98%) of the leaders we surveyed plan to newly offer or expand at least one employee benefit, prioritizing the ones workers deem most essential, and senior care benefits, flexibility around when...<span class="slds-text-link" style="background-color: whitesmoke;">more</span></p>
                         </div>
                     </lightning-layout-item>
                     <!-- PART 2 ENDS -->
@@ -263,137 +251,144 @@
                 </lightning-layout-item>
                 <!--LAYOUT ITEM 3 ENDS-->
             </lightning-layout>
-        <!--TAB 1 ENDS-->
+            </template>
         </div>
+        <!--TAB 1 CONTENT ENDS-->
 
-        <div class="tab" data-id="tab2">
-            <!--TAB 2 STARTS-->
-            <!--SECTION 1 STARTS-->
-            <div class="slds-box slds-box_small">
 
-                <!--FILTER STARTS-->
-                <div>
-                    <div style="width: 300px; padding-right:20px; display: inline-block;">
-                    <lightning-combobox
-                        name="progress"
-                        label=""
-                        value={defaultName}
-                        placeholder={placeholderLives}
-                        options={optionsName}
-                        onchange={handleChangeForName} >
-                    </lightning-combobox>
+        <!--TAB 2 CONTENT STARTS-->
+        <div class="tab slds-hidden" data-id="tab2">
+                <!--SECTION 1 STARTS-->
+                <template if:true={tabLoaded2}>
+                <div class="" style="" >
+
+                    <!--FILTER STARTS-->
+                    <div>
+                        <div style="width: 300px; padding-right:20px; display: inline-block;">
+                        <lightning-combobox
+                            name="progress"
+                            label=""
+                            value={defaultName}
+                            placeholder={placeholderLives}
+                            options={optionsName}
+                            onchange={handleChangeForName} >
+                        </lightning-combobox>
+                        </div>
+
+                        <div style="width: 300px; padding-left: 20px; display: inline-block;">
+                        <lightning-combobox
+                            name="progress"
+                            label=""
+                            value={defaultPlan}
+                            placeholder={placeholderMedPlan}
+                            options={optionsPlan}
+                            onchange={handleChangeForPlan} >
+                        </lightning-combobox>
+                        </div>
                     </div>
+                    <!--FILTER ENDS--><br/>
 
-                    <div style="width: 300px; padding-left: 20px; display: inline-block;">
-                    <lightning-combobox
-                        name="progress"
-                        label=""
-                        value={defaultPlan}
-                        placeholder={placeholderMedPlan}
-                        options={optionsPlan}
-                        onchange={handleChangeForPlan} >
-                    </lightning-combobox>
-                    </div>
-                </div>
-                <!--FILTER ENDS--><br/>
-
-                <!--CENSUS DATATABLE STARTS-->
-                <div style="">
-                    <lightning-datatable
-                            key-field="id"
-                            show-row-number-column = "true"
-                            data={censusData}
-                            columns={columns}
-                            onrowaction={handleRowAction}>
-                    </lightning-datatable>
-                </div>
-                <div class="slds-p-top_medium" style="padding-left:84%">
-                    <div style="display: inline-block;"><lightning-icon class="slds-box slds-box_xx-small" icon-name="utility:share" alternative-text="share" title="share"></lightning-icon></div>
-                    <!-- <div class="slds-p-horizontal_x-small" style="display: inline-block;" ><lightning-icon class="slds-box slds-box_xx-small"  icon-name="utility:download" alternative-text="download" title="download"></lightning-icon></div>
-                    <div style="display: inline-block;"><lightning-icon icon-name="utility:print" alternative-text="print" title="print" class="slds-box slds-box_xx-small"></lightning-icon></div> -->
-                    <div style="display: inline-block;"><lightning-button variant="brand-outline" label="View full report" title="View full report" onclick={handlePUPForCensusData} class="slds-m-left_x-small"></lightning-button></div>
-                    <!-- <div style="display: inline-block;"><lightning-button variant="brand-outline" label="Ask the expert" title="Ask the expert" onclick={askTheExpert} class="slds-m-left_x-small"></lightning-button></div> -->
-                </div>
-                <!--CENSUS DATATABLE ENDS-->
-                <!-- POP UP WINDOW OF CENSUS RECORD LIST STARTS -->
-                <c-modal-Popup-For-Census-Records mypopupcensusdata={myPopupCensusData} columns={columns}></c-modal-Popup-For-Census-Records>
-                <!-- POP UP WINDOW OF CENSUS RECORD LIST ENDS -->
-            </div>
-            <!--SECTION 1 ENDS-->
-            <br/><br/><br/><br/>
-            <!--SECTION 2 STARTS-->
-            <div class="slds-box slds-box_small">
-                DEMOGRAPHICS & GROGRAPHIES
-            </div>
-            <!--LAYOUT ITEM 2 STARTS-->
-            <lightning-layout-item padding="around-small" size="12">
-                <lightning-layout>
-                    <!--DEMOGRAPHICS & GROGRAPHIES TABLE STARTS-->
-                    <lightning-layout-item padding="around-small" size="4">
+                    <!--CENSUS DATATABLE STARTS-->
+                    <div style="border: ridge;">
                         <lightning-datatable
-                            key-field="id"
-                            data={censusData}
-                            show-row-number-column = "true"
-                            columns={demGeoColumn}
-                            onrowaction={handleRowAction}>
-                    </lightning-datatable>
-                    </lightning-layout-item>
-                    <!--DEMOGRAPHICS & GROGRAPHIES TABLE ENDS-->
-
-                    <!--DEMOGRAPHICS & GROGRAPHIES MAP STARTS-->
-                    <template if:true={mapMarkers}>
-                        <lightning-layout-item padding="around-small" size="8">
-                            <lightning-map
-                            map-markers={mapMarkers}
-                            zoom-level={zoomLevel}
-                            list-view={listView}>
-                            </lightning-map>
+                                key-field="id"
+                                show-row-number-column = "true"
+                                data={censusData}
+                                columns={columns}
+                                onrowaction={handleRowAction}>
+                        </lightning-datatable>
+                    </div>
+                    <div class="slds-p-top_medium" style="padding-left:89%">
+                        <!-- <div style="display: inline-block;"><lightning-icon class="slds-box slds-box_xx-small" icon-name="utility:share" alternative-text="share" title="share"></lightning-icon></div> -->
+                        <!-- <div class="slds-p-horizontal_x-small" style="display: inline-block;" ><lightning-icon class="slds-box slds-box_xx-small"  icon-name="utility:download" alternative-text="download" title="download"></lightning-icon></div>
+                        <div style="display: inline-block;"><lightning-icon icon-name="utility:print" alternative-text="print" title="print" class="slds-box slds-box_xx-small"></lightning-icon></div> -->
+                        <div style="display: inline-block;"><lightning-button variant="brand-outline" label="View full report" title="View full report" onclick={handlePUPForCensusData} class="slds-m-left_x-small"></lightning-button></div>
+                        <!-- <div style="display: inline-block;"><lightning-button variant="brand-outline" label="Ask the expert" title="Ask the expert" onclick={askTheExpert} class="slds-m-left_x-small"></lightning-button></div> -->
+                    </div>
+                    <!--CENSUS DATATABLE ENDS-->
+                    <!-- POP UP WINDOW OF CENSUS RECORD LIST STARTS -->
+                    <c-modal-Popup-For-Census-Records mypopupcensusdata={myPopupCensusData} columns={columns}></c-modal-Popup-For-Census-Records>
+                    <!-- POP UP WINDOW OF CENSUS RECORD LIST ENDS -->
+                </div>
+                <!--SECTION 1 ENDS-->
+                <br/><br/><br/><br/>
+                <!--SECTION 2 STARTS-->
+                <div class="slds-box slds-box_small" style="border: ridge;">
+                    DEMOGRAPHICS & GROGRAPHIES
+                </div>
+                <!--LAYOUT ITEM 2 STARTS-->
+                <lightning-layout-item padding="around-small" size="12">
+                    <lightning-layout>
+                        <!--DEMOGRAPHICS & GROGRAPHIES TABLE STARTS-->
+                        <lightning-layout-item padding="around-small" size="4">
+                            <div style="border: ridge;">
+                                <lightning-datatable
+                                    key-field="id"
+                                    data={censusGeoData}
+                                    show-row-number-column = "true"
+                                    columns={censusGeoColumn}
+                                    onrowaction={handleRowAction}>
+                                </lightning-datatable>
+                            </div>
                         </lightning-layout-item>
-                    </template>
-                    <!--DEMOGRAPHICS & GROGRAPHIES MAP ENDS-->
-                </lightning-layout>
-            </lightning-layout-item>
-            <!--LAYOUT ITEM 2 ENDS-->
-            <!--SECTION 2 ENDS-->
-        <!--TAB 2 ENDS-->
-        </div>
+                        <!--DEMOGRAPHICS & GROGRAPHIES TABLE ENDS-->
 
-        <div class="tab" data-id="tab3">
-            <!--TAB 3 STARTS-->
+                        <!--DEMOGRAPHICS & GROGRAPHIES MAP STARTS-->
+                            <template if:true={mapMarkers}>
+                                <lightning-layout-item padding="around-small" size="8">
+                                    <lightning-map
+                                    map-markers={mapMarkers}
+                                    zoom-level={zoomLevel}
+                                    list-view={listView}>
+                                    </lightning-map>
+                                </lightning-layout-item>
+                            </template>
+                        <!--DEMOGRAPHICS & GROGRAPHIES MAP ENDS-->
+                    </lightning-layout>
+                </lightning-layout-item>
+            </template>
+                <!--LAYOUT ITEM 2 ENDS-->
+                <!--SECTION 2 ENDS-->
+        </div>
+        <!--TAB 2 CONTENT ENDS-->
+
+        <!--TAB 3 CONTENT STARTS-->
+        <div class="tab slds-hidden" data-id="tab3">
+            <template if:true={tabLoaded3}>
             <lightning-layout multiple-rows="true">
 
                 <!--LAYOUT ITEM 1 STARTS-->
                 <lightning-layout-item padding="around-small" size="12">
                     <lightning-layout>
                     <!-- DATATABLE STARTS -->
-                    <lightning-layout-item padding="around-small" size="6">
-                        <div class="page-section page-right slds-box slds-box_small">
+                    <lightning-layout-item padding="around-small" size="6" class="" style="">
+                        <div class="page-section page-right">
                             <!--FILTER STARTS-->
                             <div>
                                 <div style="width: 300px; padding-right:20px;">
                                 <lightning-combobox
                                     name="progress"
                                     label=""
-                                    value={defaultName}
-                                    placeholder="Employees only"
-                                    options={optionsName}
-                                    onchange={handleChangeForName1} >
+                                    value={defaultOngoingStatus}
+                                    placeholder="Large claimant"
+                                    options={optionsForOngoingStatus}
+                                    onchange={handleChangeOnStatus} >
                                 </lightning-combobox>
                                 </div>
                             </div>
                             <!--FILTER ENDS--><br/>
 
-                            <div style="">
+                            <div style="border:ridge;">
                                 <lightning-datatable
                                         key-field="id"
                                         show-row-number-column = "true"
-                                        data={censusData}
+                                        data={censusData1}
                                         columns={diognosisColumn}
                                         onrowaction={handleRowAction1}>
                                 </lightning-datatable>
                             </div>
-                            <div class="slds-p-top_medium" style="padding-left:66%">
-                                <div style="display: inline-block;"><lightning-icon class="slds-box slds-box_xx-small" icon-name="utility:share" alternative-text="share" title="share"></lightning-icon></div>
+                            <div class="slds-p-top_medium" style="padding-left:77%">
+                                <!-- <div style="display: inline-block;"><lightning-icon class="slds-box slds-box_xx-small" icon-name="utility:share" alternative-text="share" title="share"></lightning-icon></div> -->
                                 <!-- <div class="slds-p-horizontal_x-small" style="display: inline-block;" ><lightning-icon class="slds-box slds-box_xx-small"  icon-name="utility:download" alternative-text="download" title="download"></lightning-icon></div>
                                 <div style="display: inline-block;"><lightning-icon icon-name="utility:print" alternative-text="print" title="print" class="slds-box slds-box_xx-small"></lightning-icon></div> -->
                                 <div style="display: inline-block;"><lightning-button variant="brand-outline" label="View full report" title="View full report" onclick={handlePUPForCensusData1} class="slds-m-left_x-small"></lightning-button></div>
@@ -404,11 +399,11 @@
                     <!-- DATATABLE ENDS -->
 
                     <!-- OBSERVATIONS STARTS -->
-                    <lightning-layout-item padding="around-small" size="6">
+                    <lightning-layout-item padding="around-small" size="6" class="slds-box slds-box_small" style="border: ridge;">
                         <h2><b>Observations</b></h2>
 
                         <!-- OBSERVATIONS 1 STARTS -->
-                        <div class="page-section page-right slds-box slds-box_small">
+                        <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
                             <p>Fourty-two (42) members have claims >$50K through May. Only fifteen(15) members reached this threshold in April</p>
                         </div>
                         <div class="slds-p-bottom_large slds-p-top_small" style="padding-left:77%">
@@ -417,7 +412,7 @@
                         </div>
                         <!-- OBSERVATIONS 1 ENDS -->
                         <!-- OBSERVATIONS 2 STARTS -->
-                        <div class="page-section page-right slds-box slds-box_small">
+                        <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
                             <p>Nine(9) members this month have claims >$100K through May. Five(5) members reached this threshold in April</p>
                             <p>• Fifteen (15) of the top 20 members had claims over $20K in May alone</p>
                             <p>• The top 20 year-to-date large claimants accounted for 68.7% of total medical/rx claims this month, excluding SurgeryPlus claims</p>
@@ -428,7 +423,7 @@
                         </div>
                         <!-- OBSERVATIONS 2 ENDS -->
                         <!-- OBSERVATIONS 3 STARTS -->
-                        <div class="page-section page-right slds-box slds-box_small">
+                        <div class="page-section page-right slds-box slds-box_small" style="border: ridge;">
                             <p>ProMach can expect a stop-loss reimbursement of $9,504 in May as a result of large claimant activity</p>
                             <p>• The #1 claimant has incurred $285K claims through May</p>
                         </div>
@@ -446,8 +441,11 @@
                 <!--LAYOUT ITEM 1 ENDS-->
 
             </lightning-layout>
-        <!--TAB 3 ENDS-->
+            </template>
         </div>
+        <!--TAB 3 CONTENT ENDS-->
+
+    </div>
 
     </lightning-card>
 </template>

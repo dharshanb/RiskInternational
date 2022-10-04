@@ -1,62 +1,52 @@
 import { LightningElement , wire , track} from 'lwc';
 import getMapData from '@salesforce/apex/OverallStatusController.getMapData';
 //import getProjectList from "@salesforce/apex/OverallStatusController.getProjectList";
+import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import PROJECT_TEAM_OBJECT from '@salesforce/schema/Project_Team__c';
+import PT_NAME_FIELD from '@salesforce/schema/Project_Team__c.Name';
+import PT_PROJECT_FIELD from '@salesforce/schema/Project_Team__c.Project__c';
+import PT_USER_FIELD from '@salesforce/schema/Project_Team__c.User__c';
+import PT_CONTACT_FIELD from '@salesforce/schema/Project_Team__c.Contact__c';
 
 export default class TestingOverallStatus extends LightningElement {
-zoomLevel
-listView
-mapMarkers
+    objectApiName = PROJECT_TEAM_OBJECT;
+    fields = [PT_NAME_FIELD,PT_PROJECT_FIELD,PT_USER_FIELD,PT_CONTACT_FIELD];
 
+    handleAction(event){
+        alert('1');
+    }
 
-// @track mapMarkers = [];
+    handleAction(event){
+        alert('2');
+    }
 
-// @wire (getMapData) newLocalMethodForRep({error,data}){
-//     if(data){
-//         let arr = [];
-//         for(var i = 0; i< data.length; i++){
-//         arr.push({ location : {
-//             Country: "United State Of America",
-//             State: data[i]
-//             },
-//             title : 'The Landmark Building'
-//         })
-//         }
+    handleAction(event){
+        alert('3');
+    }
 
-//         console.log('arr>>'+JSON.stringify(arr));
-//         this.mapMarkers = arr;
-//         console.log('this.mapMarkers>>'+JSON.stringify(this.mapMarkers));
+    renderedCallback(){
+        this.template.querySelectorAll("div.action11").forEach((element) => {
+        element.addEventListener("click", (event)=>{
+        let target = event.currentTarget.dataset.tabId;
+            console.log('target>>'+target);
 
-//         //Google Maps API supports zoom levels from 1 to 22 in desktop browsers, and from 1 to 20 on mobile.
-//         this.zoomLevel = 5;
-//         this.listView = "visible";
-//     }
-//     if(error){
-//         console.log(error);
-//         this.repError = error;
-//     }
-// }
+        this.template.querySelectorAll("div.action11").forEach((tabel) => {
+            console.log('tabel>>'+tabel);
+        if(tabel === element){
+        tabel.classList.add("active-tab");
+        }
+        else{
+        tabel.classList.remove("active-tab");
+        }
+        });
 
+        this.template.querySelectorAll(".tab").forEach(tabdata=>{
+        tabdata.classList.add("slds-hidden");
+        });
 
-connectedCallback(){
-    //GOOGLE MAP MARKER STARTS
-    this.mapMarkers = [
-        {
-            location: {
-                Latitude: '39.0119',
-                Longitude: '-98.4842',
-            },
-            mapIcon: {
-                path: 'Mn 129,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
-                fillOpacity: .8,
-                strokeWeight: 0,
-                scale: .10,
-                anchor: {x: 122.5, y: 115}
-                },
-        },
-    ];
-    this.zoomLevel = 3;
-
+        this.template.querySelector('[data-id="'+target+'"]').classList.remove("slds-hidden");
+        this.template.querySelector('[data-id="'+target+'"]').classList.add("slds-visible");
+        });
+        });
+        }
 }
-}
-
-//for(var key in result){

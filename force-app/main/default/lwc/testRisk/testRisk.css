@@ -1,3 +1,25 @@
+.active-tab{
+    border-color: blue;
+    border-width: unset;
+}
+
+/* .active-tab-content{
+    display: block;
+}
+
+.tab{
+    display: none;
+} */
+
+
+
+
+
+
+
+
+
+
 /* .buttonColor > button {
 color:white;
 background-color: #39ac73;

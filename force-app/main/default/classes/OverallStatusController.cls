@@ -1,5 +1,5 @@
 public class OverallStatusController {
-
+//000
     public static String conProjectID {get;set;}
     public OverallStatusController(){
         List<Project_Team__c> projectTeam = [SELECT Id,User__c,Project__r.Name,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() LIMIT 1];
@@ -341,13 +341,22 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static Project__c getAccountByProFilter(String ProjectId) {
         try {
-            Project__c accNameFromProject = [SELECT Id, Account__r.Name FROM Project__c WHERE Id =: ProjectId];
+            Project__c accNameFromProject = [SELECT Id,Name, Account__r.Name FROM Project__c WHERE Id =: ProjectId];
             return accNameFromProject;
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    //GET PROJECT LIST BY DEFAULT PROJECT NAME(DEFAULT ACCOUNT NAME) FOR ASSIGN TO THE PROJECT DROUP DOWN STARTS
+    @AuraEnabled(cacheable=true)
+    public static List<Project__c> getProListByDefaultPro(){
+        List<Project_Team__c> ptList = [SELECT Id,Project__r.Name,Project__r.Account__c FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() ORDER BY Project__r.LastModifiedDate DESC LIMIT 1];
+        List<Project__c> proList = [SELECT Id,Name FROM Project__c WHERE Account__c =: ptList[0].Project__r.Account__c];
+        return proList;
+    }
+    //GET PROJECT LIST BY DEFAULT PROJECT NAME(DEFAULT ACCOUNT NAME) FOR ASSIGN TO THE PROJECT DROUP DOWN ENDS
 
     @AuraEnabled(cacheable=true)
     public static string runReport() {
@@ -387,6 +396,95 @@ public class OverallStatusController {
         return accList;
     }
 
+
+//---------------------------getCensusGeoDataList-----------------------------STARTS---------------------------getCensusGeoDataList-------------
+    @AuraEnabled(cacheable=true)
+    public static List<String> getCensusGeoDataList(String ProjectId){
+        try {
+        List<String> nameList = new List<String>();
+        Integer abc1;
+        Integer abc2;
+
+        //Benefits Eligible Employees STARTS
+        List<Census__c> censusLivesCount = [SELECT Id FROM Census__c WHERE Project__r.Id =: ProjectId];
+        if(censusLivesCount.size() > 0){
+            abc1 = censusLivesCount.size();
+            String str1 = String.valueOf(abc1);
+            nameList.add(str1);
+        }
+        else{
+            nameList.add('0');
+            abc1 = 0;
+        }
+        //Benefits Eligible Employees ENDS
+
+        //Medical Enrollment STARTS
+        List<Census__c> censusMedEnrollCount = [SELECT Id FROM Census__c WHERE Project__r.Id =: ProjectId AND Medical_Plan__c <> 'Waive Medical Coverage'];
+        if(censusMedEnrollCount.size() > 0){
+            abc2 = censusMedEnrollCount.size();
+            String str2 = String.valueOf(abc2);
+            nameList.add(str2);
+        }
+        else{
+            nameList.add('0');
+            abc2 = 0;
+        }
+        //Medical Enrollment ENDS
+
+        //Medical Participation % STARTS
+        Integer perWon;
+        if(abc1 > 0){
+            if(abc2 > 0){
+                perWon = (abc2 * 100 / abc1);
+                String str2 = String.valueOf(abc2);
+            }
+            else{
+                perWon = 0;
+            }
+        }
+        else{
+            perWon = 0;
+        }
+        nameList.add(String.valueOf(perWon)+'%');
+        //Integer perWon = (341 * 100 / 399);
+        //Medical Participation % ENDS
+
+        //Single Coverage Election STARTS
+        List<Census__c> censusSigleCovCount = [SELECT Id FROM Census__c WHERE Project__r.Id =: ProjectId AND Medical_Plan__c <> 'Waive Medical Coverage' AND Medical_Coverage__c =: 'Employee (Only)'];
+        if(censusSigleCovCount.size() > 0){
+            Integer perWonSing = (censusSigleCovCount.size() * 100 / abc2);
+            nameList.add(String.valueOf(perWonSing)+'%');
+        }
+        else{
+            nameList.add('0%');
+        }
+        //Single Coverage Election ENDS
+
+        //Gender (% Male) STARTS
+        List<Census__c> censusGenCount = [SELECT Id FROM Census__c WHERE Project__r.Id =: ProjectId AND Medical_Plan__c != 'Waive Medical Coverage' and Gender__c = 'Male'];
+        if(censusGenCount.size() > 0){
+            Integer perWonGen = (censusGenCount.size() * 100 / abc2);
+            nameList.add(String.valueOf(perWonGen)+'%');
+        }
+        else{
+            nameList.add('0%');
+        }
+        //Gender (% Male) ENDS
+
+        nameList.add('-');
+        nameList.add('-');
+        nameList.add('-');
+        nameList.add('-');
+        return nameList;
+
+        }
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+//---------------------------getCensusGeoDataList-----------------------------ENDS---------------------------getCensusGeoDataList-------------
+
     @AuraEnabled(cacheable=true)
     public static List<Project_Team__c> getProjectList(){
         system.debug('UserInfo.getUserId()>>'+UserInfo.getUserId());
@@ -405,11 +503,32 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static List<Project_Team__c> getDefaultProject(){
         system.debug('UserInfo.getUserId()>>'+UserInfo.getUserId());
-        return [SELECT Id,User__c,Project__r.Name,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() ORDER BY Project__r.LastModifiedDate DESC LIMIT 1];
+        return [SELECT Id,User__c,Project__r.Name,Project__c FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() ORDER BY Project__r.LastModifiedDate DESC LIMIT 1];
     }
+
+    // @AuraEnabled(cacheable=true)
+    // public static Integer getAccCountForLoginUser(){
+    //     try {
+    //     set<Id> ProjectIdList = new set<Id>();
+    //     set<Id> AccIdList = new set<Id>();
+    //     system.debug('UserInfo.getUserId()>>'+UserInfo.getUserId());
+    //     List<Project_Team__c> proList = [SELECT Id,User__c,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId()];
+    //     for(Project_Team__c pro : proList){
+    //         ProjectIdList.add(pro.Project__r.Id);
+    //     }
+    //     Project__c accIdFromProject = [SELECT Id, Account__c FROM Project__c WHERE Id IN ProjectIdList];
+    //     for(Project_Team__c acc : accIdFromProject){
+    //         AccIdList.add(acc.Account__c);
+    //     }
+    //     }
+    //     catch (Exception e) {
+    //         throw new AuraHandledException(e.getMessage());
+    //     }
+    // }
 
     @AuraEnabled(cacheable=true)
     public static List<Project__c> getDefaultProNameByProFilter(String ProjectId){
         return [SELECT Id, Name FROM Project__c where Id =: ProjectId];
     }
+
 }

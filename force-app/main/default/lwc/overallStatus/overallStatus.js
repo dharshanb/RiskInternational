@@ -1,5 +1,6 @@
 import { LightningElement,api,track,wire} from 'lwc';
 import getDefaultProject from "@salesforce/apex/OverallStatusController.getDefaultProject";
+// import getAccCountForLoginUser from "@salesforce/apex/OverallStatusController.getAccCountForLoginUser";
 import getDefaultProNameByProFilter from "@salesforce/apex/OverallStatusController.getDefaultProNameByProFilter";
 import getReports from '@salesforce/apex/OverallStatusController.getReports';
 import getCensus from '@salesforce/apex/OverallStatusController.getCensus';
@@ -14,6 +15,7 @@ import getContactListByProject from '@salesforce/apex/OverallStatusController.ge
 import getContactForPopupListByProject from '@salesforce/apex/OverallStatusController.getContactForPopupListByProject';
 // import getAccount from '@salesforce/apex/OverallStatusController.getAccount';
 import getAccountByProFilter from '@salesforce/apex/OverallStatusController.getAccountByProFilter';
+import getProListByDefaultPro from '@salesforce/apex/OverallStatusController.getProListByDefaultPro';
 import fetchFilterReports from '@salesforce/apex/OverallStatusController.fetchFilterReports';
 import getCensusEmpCount from '@salesforce/apex/OverallStatusController.getCensusEmpCount';
 import getCensusEmpCountByProject from '@salesforce/apex/OverallStatusController.getCensusEmpCountByProject';
@@ -33,6 +35,7 @@ import Id from '@salesforce/user/Id';
 import getProjectList from "@salesforce/apex/OverallStatusController.getProjectList";
 import getProjectListByAccount from "@salesforce/apex/OverallStatusController.getProjectListByAccount";
 import getAccountList from "@salesforce/apex/OverallStatusController.getAccountList";
+import getCensusGeoDataList from "@salesforce/apex/OverallStatusController.getCensusGeoDataList";
 import getMapData from '@salesforce/apex/OverallStatusController.getMapData';
 import getMapDataByProFilter from '@salesforce/apex/OverallStatusController.getMapDataByProFilter';
 
@@ -47,22 +50,18 @@ const columns = [
     { label: 'Vision', fieldName: 'Vision_Plan__c' },
     { label: 'Dependant', fieldName: 'Dep_FSA__c' },
     { label: 'Medical Coverage', fieldName: 'Medical_Coverage__c' },
-    {
-        type: 'action',
-        typeAttributes: { rowActions: actions },
-    },
 ];
-const demGeoColumn = [
-    { label: 'Metric', fieldName: ''},
-    { label: 'Total', fieldName: '' },
+const censusGeoColumn = [
+    { label: 'Metric', fieldName: 'metric'},
+    { label: 'Total', fieldName: 'total' },
 ];
 
 //OVERALL CLAIM COST TABLE STARTS
 const diognosisColumn = [
-    { label: 'Relation', fieldName: 'Employee_Name__c'},
-    { label: 'Diognosis & Condition', fieldName: 'Medical_Plan__c' },
+    { label: 'Relation', fieldName: ''},
+    { label: 'Diognosis & Condition', fieldName: '' },
     { label: 'Ongoing Status', fieldName: '' },
-    { label: 'YTD', fieldName: 'Vision_Plan__c' },
+    { label: 'YTD', fieldName: '' },
 ];
 //OVERALL CLAIM COST TABLE ENDS
 
@@ -76,7 +75,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     @track repError;
     @track conError;
     @track columns = columns;
-    @track demGeoColumn = demGeoColumn;
+    @track censusGeoColumn = censusGeoColumn;
     @track diognosisColumn = diognosisColumn;
     @track record = {};
     @track repNameList;
@@ -88,7 +87,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     @api getLivesCount;
     @track accName;
     @track accNameForConPopup;
-    @track isDisabled = true;
+    @track isDisabled = false;
     @track defaultAccount;
     @track defaultName;
     @track placeholderAccount;
@@ -96,6 +95,17 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     @track medPlanList;
     @track placeholderLives;
     @track placeholderMedPlan;
+    @track censusGeoData = [];
+    tabLoaded1 = true;
+    tabLoaded2 = false;
+    tabLoaded3 = false;
+
+    // //PUT DATA TO CENSUS DATATABLE(DEMOGRAPHICS AND GEOGRAPHIES) STARTS
+    // get optionsForCensusGeoDta(){
+    //     return this.censusGeoData;
+    // }
+    // //PUT DATA TO CENSUS DATATABLE(DEMOGRAPHICS AND GEOGRAPHIES) STARTS
+
 
 //FILTER THE PROJECT RECORDS BY SELECTING THE ACCOUNT STARTS
     @track accountList = [];
@@ -109,17 +119,17 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
 
         //GET PROJECT LIST FOR ASSIGNING TO PROJECT DROPDOWN BY SELECTING THE ACCOUNT STARTS
         //GET THE PROJECT RECORDS BY ACCOUNT AND USER STARTS
-        this.isDisabled = false;
+        //this.isDisabled = false;
         getProjectListByAccount({
             AccountId : this.filterByAccount
         })
         .then(result=> {
         let arr = [];
-        //arr.push({ label: result[i].Project__r.Name, value: result[i].Project__r.Id})
         for(var i = 0; i< result.length; i++){
         arr.push({ label: result[i].Name, value: result[i].Id});
         }
-        this.projectList = arr;
+        this.pprojectList = arr;
+        this.placeholderProName = 'Select Project';
         })
         //GET THE PROJECT RECORDS BY ACCOUNT AND USER ENDS
         //GET PROJECT LIST FOR ASSIGNING TO PROJECT DROPDOWN BY SELECTING THE ACCOUNT ENDS
@@ -128,15 +138,44 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
 
 
 //FILTER THE PROJECT RECORDS BY USER STARTS
-    @track projectList = [];
+    @track pprojectList = [];
     @track filterByProject;
 
     get optionsProject(){
-        return this.projectList;
+        return this.pprojectList;
     }
 
     handleChangeForProject(Event) {
         this.filterByProject = Event.detail.value;
+
+        //GET CENSUS DATA(DEMOGRAPHICS AND GEOGRAPHIES) BY SELECTING THE PROJECT STARTS
+        getCensusGeoDataList({
+            ProjectId : this.filterByProject
+        })
+        .then(resust=>{
+            var metric0 = resust[0];
+            var metric1 = resust[1];
+            var metric2 = resust[2];
+            var metric3 = resust[3];
+            var metric4 = resust[4];
+            var metric5 = resust[5];
+            var metric6 = resust[6];
+            var metric7 = resust[7];
+            this.censusGeoData = [
+                { id: 1, metric: 'Benefits Eligible Employees', total: metric0},
+                { id: 2, metric: 'Medical Enrollment', total: metric1},
+                { id: 3, metric: 'Medical Participation %', total: metric2},
+                { id: 4, metric: 'Single Coverage Election', total: metric3},
+                { id: 5, metric: 'Gender (% Male)', total: metric4},
+                { id: 6, metric: 'Average Age', total: metric5},
+                { id: 5, metric: 'Average Tenure', total: metric6},
+                { id: 6, metric: 'Average Family Size', total: metric7},
+            ];
+        })
+        .catch(error=>{
+            this.repError = error;
+        });
+        //GET CENSUS DATA(DEMOGRAPHICS AND GEOGRAPHIES) BY SELECTING THE PROJECT ENDS
 
 
         //LOAD LIST OF VALUES TO UNIQUE MEDICAL PLAN DROUPDOWN BY SELECTING THE PROJECT STARTS
@@ -239,7 +278,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         })
         .then(resust=>{
 
-            let arr = [];
+            let arrray = [];
             var res = resust;
             for(var key in res){
                 var stt = key;
@@ -262,28 +301,31 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
                 //     var col = "red";
                 // }
                 // //COLOR ENDS
-                var arr1 =
-                    {
-                    location: {
-                    Country: "United State Of America",
-                    State: stt
-                    },
-                    title : 'Number of Employees Enrolled in Medical-'+noEmp+'('+stt+')',
-                    mapIcon: {
-                        path: "M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z",
-                        fillColor: col,
-                        fillOpacity: .8,
-                        strokeWeight: 0,
-                        scale: .10,
-                        anchor: {x: 122.5, y: 115}
+                var arrPro =
+                        {
+                        location: {
+                        Country: "United State Of America",
+                        State: stt
                         },
-                    };
-                    arr.push(arr1);
+                        title : 'Number of Employees Enrolled in Medical '+noEmp+'('+stt+')',
+                        mapIcon: {
+                            path: "M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z",
+                            fillColor: col,
+                            fillOpacity: .8,
+                            strokeWeight: 0,
+                            scale: .10,
+                            anchor: {x: 122.5, y: 115}
+                            },
+                        };
+                    arrray.push(arrPro);
+                    this.mapMarkers = arrray;
             }
-            if(arr.length > 0){
-                this.mapMarkers = arr;
+            if(arrray.length > 0){
+                console.log('mapMarkers If'+JSON.stringify(this.mapMarkers));
+                this.mapMarkers = arrray;
             }
             else{
+                console.log('mapMarkers Else');
                 this.mapMarkers = [
                     {
                         location: {
@@ -313,8 +355,8 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
             ProjectId : this.filterByProject
         })
         .then(resust=>{
-            this.defaultProjectName = resust[0].Name;
-            this.placeholderProName = resust[0].Name;
+            // this.defaultProjectName = resust[0].Name;
+            // this.placeholderProName = resust[0].Name;
         })
         .catch(error=>{
             this.repError = error;
@@ -404,28 +446,44 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     }
 //FILTER THE PROJECT RECORDS BY USER ENDS
 
+handleAction1(event){
+    this.tabLoaded1 = true;
+    this.tabLoaded2 = false;
+    this.tabLoaded3 = false;
+}
+
+handleAction2(event){
+    this.tabLoaded1 = false;
+    this.tabLoaded2 = true;
+    this.tabLoaded3 = false;
+}
+
+handleAction3(event){
+    this.tabLoaded1 = false;
+    this.tabLoaded2 = false;
+    this.tabLoaded3 = true;
+}
+
     //MAIN TABS STARTS
     renderedCallback(){
-        this.template.querySelectorAll("span").forEach((element) => {
-        element.addEventListener("click", (event)=>{
-        let target = event.currentTarget.dataset.tabId;
-        this.template.querySelectorAll("span").forEach((tabel) => {
-        if(tabel === element){
-        tabel.classList.add("active-tab");
-        this.defaultName = [];
-        this.isDisabled = true;
-        this.defaultAccount = [];
-        }
-        else{
-        tabel.classList.remove("active-tab");
-        }
-        });
-        this.template.querySelectorAll(".tab").forEach(tabdata=>{
-        tabdata.classList.remove("active-tab-content");
-        });
-        this.template.querySelector('[data-id="'+target+'"]').classList.add("active-tab-content");
-        });
-        });
+        this.template.querySelectorAll("div.action11").forEach((element) => {
+            element.addEventListener("click", (event)=>{
+            let target = event.currentTarget.dataset.tabId;
+            this.template.querySelectorAll("div.action11").forEach((tabel) => {
+            if(tabel === element){
+            tabel.classList.add("active-tab");
+            }
+            else{
+            tabel.classList.remove("active-tab");
+            }
+            });
+            this.template.querySelectorAll(".tab").forEach(tabdata=>{
+            tabdata.classList.add("slds-hidden");
+            });
+            this.template.querySelector('[data-id="'+target+'"]').classList.remove("slds-hidden");
+            this.template.querySelector('[data-id="'+target+'"]').classList.add("slds-visible");
+            });
+            });
         }
     //MAIN TABS ENDS
 
@@ -654,6 +712,17 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     }
     //LOAD AND HANDLE LIST OF VALUES TO EMPLOYEE DROUPDOWN ENDS
 
+    //LOAD AND HANDLE LIST OF VALUES TO EMPLOYEE DROUPDOWN STARTS
+    get optionsForOngoingStatus(){
+        // return this.empNameList;
+        return [
+            { label: 'Employee' , value: 'Employee' },
+            { label: 'Spouse' , value: 'Spouse' },
+            { label: 'Dependant' , value: 'Dependant' }
+        ];
+    }
+    //LOAD AND HANDLE LIST OF VALUES TO EMPLOYEE DROUPDOWN ENDS
+
     //LOAD AND HANDLE LIST OF VALUES TO MEDICAL PLAN DROUPDOWN STARTS
     @api myProjectIdForLoadPlan;
     @wire (getUniqueMedicalPlan,{ ProjectId: "$myProjectIdForLoadPlan"})
@@ -722,20 +791,6 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     }
     // NAVIGATE TO FILES RECORD PAGE ENDS
 
-    // NAVIGATE TO ACCOUNT RECORD PAGE STARTS
-    navToAccount(Event) {
-        this[NavigationMixin.Navigate]({
-            type: 'standard__objectPage',
-            attributes: {
-                "objectApiName": 'Account',
-                "actionName": 'list'
-            },
-            state:{
-                filterName : '00B4x00000FIhXkEAL'
-            }
-        });
-    }
-    // NAVIGATE TO ACCOUNT RECORD PAGE ENDS
 
     //GET CONTACT RECORDS FROM OverallStatusController.getContact STARTS
     @track conList;
@@ -764,20 +819,6 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         }
     }
 
-    // @wire (getContact) newLocalMethodForCon({error,data}){
-    //     if(data){
-    //         this.conList = data;
-    //         this.thCharImg = `${ContactIconPicture}/appy.png`;
-    //         this.thCharImgForConPopup = `${ContactIconPicture}/appy.png`;
-    //         this.riskInt = `${ContactIconPicture}/riskInt.png`;
-    //     }
-    //     if(error){
-    //         console.log(error);
-    //         this.conError = error;
-    //     }
-    // }
-    //GET CONTACT RECORDS FROM OverallStatusController.getContact ENDS
-
     //GET CONTACT RECORDS FROM OverallStatusController.getContactForPopup STARTS
     myPopupContactDataList
     conCountPopup;
@@ -799,25 +840,13 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         );
         }
     }
-    // @wire (getContactForPopup) newLocalMethodForConPopup({error,data}){
-    //     if(data){
-    //         this.myPopupContactDataList = data;
-    //         this.conCountPopup = this.myPopupContactDataList.length;
-    //         this.conCount = this.myPopupContactDataList.length;
-    //     }
-    //     if(error){
-    //         console.log(error);
-    //         this.conError = error;
-    //     }
-    // }
-    //GET CONTACT RECORDS FROM OverallStatusController.getContactForPopup ENDS
 
     constructor() {
         super();
         this.classList.add('new-class');
     }
 
-    //GET ACCOUNT NAME STARTS
+    //GET ACCOUNT NAME FOR ASSIGN TO THE DROUP DOWN STARTS
     @api myProjectIdForGetAcc;
 
     @wire(getAccountByProFilter, { ProjectId: "$myProjectIdForGetAcc" })
@@ -826,6 +855,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         if (data) {
             this.accName = data.Account__r.Name;
             this.placeholderAccount = data.Account__r.Name;
+            this.placeholderProName = data.Name;
             this.accNameForConPopup = data.Account__r.Name;
         }
         else if (error) {
@@ -838,7 +868,8 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         );
         }
     }
-    //GET ACCOUNT NAME ENDS
+    //GET ACCOUNT NAME FOR ASSIGN TO THE DROUP DOWN ENDS
+
 
     //POP UP WINDOW OF CONTACTS STARTS
     handlePUPForContact(){
@@ -846,6 +877,13 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         modal.showContact();
     }
     //POP UP WINDOW OF CONTACTS ENDS
+
+    //POP UP WINDOW OF PROJECT TEAM REOCORD CREATION STARTS
+    newProjectTeam(){
+        const modal1 = this.template.querySelector("c-modal-Popoup-For-Creatept");
+        modal1.showPtRecCreate();
+    }
+    //POP UP WINDOW OF PROJECT TEAM REOCORD CREATION ENDS
 
 
     //GETTING FILES STARTS
@@ -1000,24 +1038,65 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         }
     }
 
+    //GET CENSUS DATA(DEMOGRAPHICS AND GEOGRAPHIES) STARTS
+    @api myProjectIdForGetCensusDeo;
+
+    @wire(getCensusGeoDataList, { ProjectId: "$myProjectIdForGetCensusDeo" })
+    censusGeoDataResponse(value) {
+        const { data, error } = value;
+        if (data) {
+            var metric0 = data[0];
+            var metric1 = data[1];
+            var metric2 = data[2];
+            var metric3 = data[3];
+            var metric4 = data[4];
+            var metric5 = data[5];
+            var metric6 = data[6];
+            var metric7 = data[7];
+            this.censusGeoData = [
+                { id: 1, metric: 'Benefits Eligible Employees', total: metric0},
+                { id: 2, metric: 'Medical Enrollment', total: metric1},
+                { id: 3, metric: 'Medical Participation %', total: metric2},
+                { id: 4, metric: 'Single Coverage Election', total: metric3},
+                { id: 5, metric: 'Gender (% Male)', total: metric4},
+                { id: 6, metric: 'Average Age', total: metric5},
+                { id: 5, metric: 'Average Tenure', total: metric6},
+                { id: 6, metric: 'Average Family Size', total: metric7},
+            ];
+        }
+        else if (error) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+            title: "Error loading getCensusGeoDataList",
+            message: error.body.message,
+            variant: "error"
+            })
+        );
+        }
+    }
+    //GET CENSUS DATA(DEMOGRAPHICS AND GEOGRAPHIES) ENDS
+
+
     connectedCallback() {
 
     //GET THE DEFAULT PROJECT RECORDS BY USER STARTS
     getDefaultProject()
     .then(result=> {
-        this.myRecordId = result[0].Project__r.Id;
-        this.myProjectIdForGetAcc = result[0].Project__r.Id;
-        this.myProjectIdForGetCon = result[0].Project__r.Id;
+        this.myRecordId = result[0].Project__c;
+        this.myProjectIdForGetAcc = result[0].Project__c;
+        this.myProjectIdForGetProList = result[0].Project__c;
+        this.myProjectIdForGetCon = result[0].Project__c;
         this.defaultProjectName = result[0].Project__r.Name;
-        this.placeholderProName = result[0].Project__r.Name;
-        this.defaultProjectId = result[0].Project__r.Id;
-        this.myProjectIdForGetCount = result[0].Project__r.Id;
-        this.myProjectIdForGetCensus = result[0].Project__r.Id;
-        this.myProjectIdForGetCensusForHandle = result[0].Project__r.Id;
-        this.myProjectIdForGetMapData = result[0].Project__r.Id;
-        this.myProjectIdForLoadPlan = result[0].Project__r.Id;
+        this.defaultProjectId = result[0].Project__c;
+        this.myProjectIdForGetCount = result[0].Project__c;
+        this.myProjectIdForGetCensus = result[0].Project__c;
+        this.myProjectIdForGetCensusForHandle = result[0].Project__c;
+        this.myProjectIdForGetMapData = result[0].Project__c;
+        this.myProjectIdForLoadPlan = result[0].Project__c;
+        this.myProjectIdForGetCensusDeo = result[0].Project__c;
     })
     //GET THE DEFAULT PROJECT RECORDS BY USER ENDS
+
 
     //FILTER THE ACCOUNT RECORDS BY USER STARTS
     getAccountList()
@@ -1030,16 +1109,17 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     })
     //FILTER THE ACCOUNT RECORDS BY USER ENDS
 
-    //FILTER THE PROJECT RECORDS BY USER STARTS
-    // getProjectList()
-    // .then(result=> {
-    // let arr = [];
-    // for(var i = 0; i< result.length; i++){
-    // arr.push({ label: result[i].Project__r.Name, value: result[i].Project__r.Id})
-    // }
-    // this.projectList = arr;
-    // })
-    //FILTER THE PROJECT RECORDS BY USER ENDS
+
+    //GET PROJECT LIST BY DEFAULT PROJECT NAME(DEFAULT ACCOUNT NAME) FOR ASSIGN TO THE PROJECT DROUP DOWN STARTS
+    getProListByDefaultPro()
+    .then(result=> {
+    let proArr = [];
+    for(var i = 0; i< result.length; i++){
+        proArr.push({ label: result[i].Name, value: result[i].Id})
+    }
+    this.pprojectList = proArr;
+    })
+    //GET PROJECT LIST BY DEFAULT PROJECT NAME(DEFAULT ACCOUNT NAME) FOR ASSIGN TO THE PROJECT DROUP DOWN ENDS
 
     }
 
