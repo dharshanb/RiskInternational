@@ -1,0 +1,8 @@
+.modal-hidden{
+display: none;
+}
+
+.imgClassPopup{
+    border-radius: var(--1wc-borderRadiusCircle, 45%);
+    width: 80px;
+}

@@ -1,0 +1,56 @@
+<template>
+    <template if:true={showModal}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container censuspopup">
+            <!-- Header Start -->
+            <header class="slds-modal__header">
+              <lightning-button-icon
+                class="slds-modal__close"
+                title="Close"
+                icon-name="utility:close"
+                icon-class="slds-button_icon-inverse"
+                onclick={handleDialogClose}
+              ></lightning-button-icon>
+    
+              <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+                All Census Record List
+              </h2>
+            </header>
+            <!-- Header End -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <template if:true={mypopupcensusdata}>
+                    <div class="slds-var-m-around_medium">
+                        <!--CENSUS DATATABLE STARTS-->
+                        <div style="">
+                            <lightning-datatable
+                                    key-field="id"
+                                    show-row-number-column = "true"
+                                    data={mypopupcensusdata}
+                                    columns={columns}
+                                    onrowaction={handleRowAction}>
+                            </lightning-datatable>
+                        </div>
+                        <div class="slds-p-top_medium" style="padding-left:96%">
+                            <div style="display: inline-block;"><lightning-icon class="slds-box slds-box_xx-small" icon-name="utility:share" alternative-text="share" title="share"></lightning-icon></div>
+                            <!-- <div class="slds-p-horizontal_x-small" style="display: inline-block;" ><lightning-icon class="slds-box slds-box_xx-small"  icon-name="utility:download" alternative-text="download" title="download"></lightning-icon></div>
+                            <div style="display: inline-block;"><lightning-icon icon-name="utility:print" alternative-text="print" title="print" class="slds-box slds-box_xx-small"></lightning-icon></div> -->
+                        </div>
+                        <!--CENSUS DATATABLE ENDS-->
+                    </div>
+                </template>
+                <!-- <template if:false={openRecordPage}>
+                    <center>No Census Data found.</center>
+                </template> -->
+            </div>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+</template>

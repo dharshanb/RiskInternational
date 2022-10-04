@@ -1,0 +1,59 @@
+<template>
+    <template if:true={showModalContact}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="slds-modal slds-fade-in-open"
+        >
+          <div class="slds-modal__container">
+            <!-- Header Start -->
+            <header class="slds-modal__header">
+              <lightning-button-icon
+                class="slds-modal__close"
+                title="Close"
+                icon-name="utility:close"
+                icon-class="slds-button_icon-inverse"
+                onclick={handleContactClose}
+              ></lightning-button-icon>
+    
+              <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+                {accnameforconpopup} Team({concountpopup})
+              </h2>
+            </header>
+            <!-- Header End -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <template if:true={mypopupcontactdatalist}>
+                    <div class="slds-var-m-around_medium">
+
+                        <!--CONTACT DATATABLE STARTS-->
+                            <table class="slds-table slds-p-bottom_medium">
+                                <template for:each={mypopupcontactdatalist} for:item="con">
+                                    <tr key={con.Id}>
+                                        <td class="slds-var-m-around_small" style="width:90px;">
+                                            <img src={thcharimgforconpopup} class="imgClassPopup"/>
+                                        </td>
+                                        <td>
+                                            <lightning-button variant="Base" label={con.Name} onclick={handleChangeInPopup} value={con.Id}></lightning-button>
+                                            <p><lightning-icon size="x-small" icon-name="utility:call" alternative-text="call" title="call" class="slds-m-right_small"></lightning-icon>{con.Phone}</p>
+                                        </td>
+                                        <td><lightning-icon size="x-small" icon-name="utility:email" alternative-text="email" title="email"></lightning-icon></td>
+                                        <td><lightning-icon size="x-small" icon-name="utility:quick_text" alternative-text="quick_text" title="quick_text"></lightning-icon></td>
+                                    </tr>
+                                </template>
+                            </table>
+                        <!--CONTACT DATATABLE ENDS-->
+
+                    </div>
+                </template>
+                <template if:false={mypopupcontactdatalist}>
+                    No Contacts Data found.
+                </template>
+            </div>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+      </template>
+</template>

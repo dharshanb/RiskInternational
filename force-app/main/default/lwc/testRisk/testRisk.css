@@ -1,0 +1,55 @@
+/* .buttonColor > button {
+color:white;
+background-color: #39ac73;
+}
+lightning-button.buttonColor {
+--sds-c-button-brand-color-background: #bb00ff;
+--sds-c-button-text-color: #f4f7f9;
+} */
+
+/* .tab-container{
+margin: auto 5%;
+padding: 3%;
+background-color : #c7eadc;
+}
+
+.tab-menu ul {
+margin: 0;
+padding: 0;
+}
+
+.tab-menu ul li{
+display: inline-block;
+list-style-type: none;
+width:33.33%;
+text-align: -webkit-center;
+border-style: ridge;
+}
+
+.tab-menu ul li a{
+text-decoration: none;
+padding: 7px 35px;
+color: rgb(0, 0, 0);
+background-color: #ffffff;
+}
+
+.tab-menu ul li a.active-tab{
+color: rgb(0, 0, 0);
+background-color: #3d22d6;
+}
+
+.tab{
+display: none;
+}
+
+.active-tab-content{
+display: block;
+}
+
+.tab h2{
+font-size: 20px;
+}
+
+.tab p{
+font-size: 15px;
+} */
