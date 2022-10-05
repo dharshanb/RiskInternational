@@ -147,6 +147,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
 
     handleChangeForProject(Event) {
         this.filterByProject = Event.detail.value;
+        this.projectIdToCreatePt = Event.detail.value;
 
         //GET CENSUS DATA(DEMOGRAPHICS AND GEOGRAPHIES) BY SELECTING THE PROJECT STARTS
         getCensusGeoDataList({
@@ -369,6 +370,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
             ProjectId : this.filterByProject
         })
         .then(resust=>{
+            this.wiredActForPtCreate = resust;
             this.conList = resust;
         })
         .catch(error=>{
@@ -382,6 +384,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
             ProjectId : this.filterByProject
         })
         .then(resust=>{
+            this.wiredPtCretaeForConCount = resust;
             this.myPopupContactDataList = resust;
             this.conCountPopup = this.myPopupContactDataList.length;
             this.conCount = this.myPopupContactDataList.length;
@@ -640,8 +643,8 @@ handleAction3(event){
 
     //GET CENSUS(EMPLOYEE COUNT) RECORDS COUNT STARTS
     @api myProjectIdForGetCount;
-    @wire (getCensusEmpCount,{ ProjectId: "$myProjectIdForGetCount" })
-        censusEmpCountResponse(value) {
+    @wire(getCensusEmpCount, { ProjectId: "$myProjectIdForGetCount" })
+    getEmployeeCount(value) {
         const { data, error } = value;
         if (data) {
             this.getEmpCount = data;
@@ -649,7 +652,7 @@ handleAction3(event){
         else if (error) {
         this.dispatchEvent(
             new ShowToastEvent({
-            title: "Error loading getCensusEmpCount",
+            title: "Error loading Employee Count",
             message: error.body.message,
             variant: "error"
             })
@@ -801,6 +804,7 @@ handleAction3(event){
     @api myProjectIdForGetCon;
     @wire(getContact, { ProjectId: "$myProjectIdForGetCon" })
     contactResponse(value) {
+        this.wiredActForPtCreate = value;
         const { data, error } = value;
         if (data) {
             this.conList = data;
@@ -811,7 +815,7 @@ handleAction3(event){
         else if (error) {
         this.dispatchEvent(
             new ShowToastEvent({
-            title: "Error loading Files",
+            title: "Error loading Contacts",
             message: error.body.message,
             variant: "error"
             })
@@ -824,6 +828,7 @@ handleAction3(event){
     conCountPopup;
     @wire(getContactForPopup, { ProjectId: "$myProjectIdForGetCon" })
     conResponse(value) {
+        this.wiredPtCretaeForConCount = value;
         const { data, error } = value;
         if (data) {
             this.myPopupContactDataList = data;
@@ -879,11 +884,21 @@ handleAction3(event){
     //POP UP WINDOW OF CONTACTS ENDS
 
     //POP UP WINDOW OF PROJECT TEAM REOCORD CREATION STARTS
+    projectIdToCreatePt
     newProjectTeam(){
         const modal1 = this.template.querySelector("c-modal-Popoup-For-Creatept");
         modal1.showPtRecCreate();
     }
     //POP UP WINDOW OF PROJECT TEAM REOCORD CREATION ENDS
+
+    //UPDATE THE CONTACT RECORDS WHEN POP UP OF PROJECT TEAM REOCORD CLOSED ENDS
+    wiredActForPtCreate
+    wiredPtCretaeForConCount
+    handleUpdate(){
+        refreshApex(this.wiredActForPtCreate);
+        refreshApex(this.wiredPtCretaeForConCount);
+    }
+    //UPDATE THE CONTACT RECORDS WHEN POP UP OF PROJECT TEAM REOCORD CLOSED  ENDS
 
 
     //GETTING FILES STARTS
@@ -1086,7 +1101,6 @@ handleAction3(event){
         this.myProjectIdForGetAcc = result[0].Project__c;
         this.myProjectIdForGetProList = result[0].Project__c;
         this.myProjectIdForGetCon = result[0].Project__c;
-        this.defaultProjectName = result[0].Project__r.Name;
         this.defaultProjectId = result[0].Project__c;
         this.myProjectIdForGetCount = result[0].Project__c;
         this.myProjectIdForGetCensus = result[0].Project__c;
@@ -1094,6 +1108,7 @@ handleAction3(event){
         this.myProjectIdForGetMapData = result[0].Project__c;
         this.myProjectIdForLoadPlan = result[0].Project__c;
         this.myProjectIdForGetCensusDeo = result[0].Project__c;
+        this.projectIdToCreatePt = result[0].Project__c;
     })
     //GET THE DEFAULT PROJECT RECORDS BY USER ENDS
 
@@ -1115,7 +1130,7 @@ handleAction3(event){
     .then(result=> {
     let proArr = [];
     for(var i = 0; i< result.length; i++){
-        proArr.push({ label: result[i].Name, value: result[i].Id})
+        proArr.push({ label: result[i].Project_Title__c, value: result[i].Id})
     }
     this.pprojectList = proArr;
     })

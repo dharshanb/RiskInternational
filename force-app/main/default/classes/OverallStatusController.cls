@@ -15,10 +15,10 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static Integer getCensusEmpCount(String ProjectId) {
+    public static String getCensusEmpCount(String ProjectId) {
         try {
             List<Census__c> censusEmpCount = [SELECT Id, Employee_Name__c FROM Census__c WHERE Medical_Coverage__c =: 'Employee (Only)' AND Project__r.Id =: ProjectId];
-            return censusEmpCount.size();
+            return String.valueOf(censusEmpCount.size());
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -26,10 +26,10 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static Integer getCensusEmpCountByProject(String ProjectId) {
+    public static String getCensusEmpCountByProject(String ProjectId) {
         try {
             List<Census__c> censusEmpCount = [SELECT Id, Employee_Name__c FROM Census__c WHERE Medical_Coverage__c =: 'Employee (Only)' AND Project__r.Id =: ProjectId];
-            return censusEmpCount.size();
+            return String.valueOf(censusEmpCount.size());
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -37,10 +37,10 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static Integer getCensusEmpFamCount(String ProjectId) {
+    public static String getCensusEmpFamCount(String ProjectId) {
         try {
             List<Census__c> censusEmpFamCount = [SELECT Id, Employee_Name__c FROM Census__c WHERE Medical_Coverage__c =: 'Employee + Family' AND Project__r.Id =: ProjectId];
-            return censusEmpFamCount.size();
+            return String.valueOf(censusEmpFamCount.size());
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -48,10 +48,10 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static Integer getCensusEmpFamCountByProject(String ProjectId) {
+    public static String getCensusEmpFamCountByProject(String ProjectId) {
         try {
             List<Census__c> censusEmpFamCount = [SELECT Id, Employee_Name__c FROM Census__c WHERE Medical_Coverage__c =: 'Employee + Family' AND Project__r.Id =: ProjectId];
-            return censusEmpFamCount.size();
+            return String.valueOf(censusEmpFamCount.size());
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -59,10 +59,10 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static Integer getCensusLivesCount(String ProjectId) {
+    public static String getCensusLivesCount(String ProjectId) {
         try {
             List<Census__c> censusLivesCount = [SELECT Id, Employee_Name__c FROM Census__c WHERE Project__r.Id =: ProjectId];
-            return censusLivesCount.size();
+            return String.valueOf(censusLivesCount.size());
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -70,10 +70,10 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static Integer getCensusLivesCountByProject(String ProjectId) {
+    public static String getCensusLivesCountByProject(String ProjectId) {
         try {
             List<Census__c> censusLivesCount = [SELECT Id, Employee_Name__c FROM Census__c WHERE Project__r.Id =: ProjectId];
-            return censusLivesCount.size();
+            return String.valueOf(censusLivesCount.size());
         }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -147,21 +147,6 @@ public class OverallStatusController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
-    // @AuraEnabled(cacheable=true)
-    // public static List<String> getMapData() {
-    //     Set<String> setStateAdd = new Set<String>();
-    //     List<String> stateAddList = new List<String>();
-    //     List<Census__c> stateCountMap = [SELECT Home_Address_State__c FROM Census__c WHERE Home_Address_State__c != NULL];
-    //     System.debug(stateCountMap);
-    //     for(Census__c state : stateCountMap){
-    //         setStateAdd.add(state.Home_Address_State__c);
-    //     }
-    //     for(String sttt : setStateAdd){
-    //         stateAddList.add(sttt);
-    //     }
-    //     return stateAddList;
-    // }
     //GET MAP DATA ENDS
 
     @AuraEnabled(cacheable=true)
@@ -270,7 +255,7 @@ public class OverallStatusController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static VOID fetchFilterReports(String name) {
+    public static void fetchFilterReports(String name) {
         System.debug('name>>>'+name);
         if(name <> null){
         // List<Report> reportList = [SELECT Id,Name,DeveloperName,Description FROM Report WHERE Name =: name ];
@@ -281,13 +266,7 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static List<Project_Team__c> getContact(String ProjectId) {
         try {
-            //String accId;
-            //List<Project__c> project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            //if(project.size() > 0){
-            //    accId = project[0].Account__r.Id;
-            //}
-            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId LIMIT 3];
-            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
+            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId LIMIT 3];
             return ProTEams;
         }
         catch (Exception e) {
@@ -298,11 +277,7 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static List<Project_Team__c> getContactListByProject(String ProjectId) {
         try {
-            //String accId;
-            //Project__c project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            //accId = project.Account__r.Id;
-            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId LIMIT 3];
-            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
+            List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId LIMIT 3];
             return ProTEams;
         }
         catch (Exception e) {
@@ -313,12 +288,6 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static List<Project_Team__c> getContactForPopup(String ProjectId) {
         try {
-            //String accId;
-            //List<Project__c> project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            //if(project.size() > 0){
-            //    accId = project[0].Account__r.Id;
-            //}
-            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId];
             List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
             return ProTEams;
         }
@@ -330,10 +299,6 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static List<Project_Team__c> getContactForPopupListByProject(String ProjectId) {
         try {
-            //String accId;
-            //Project__c project = [SELECT Id, Account__r.Id FROM Project__c WHERE Id =: ProjectId];
-            //accId = project.Account__r.Id;
-            //List<Contact> contactList = [SELECT Id,Name,Phone,Salutation,Email FROM Contact WHERE Name <> null AND AccountId =: accId];
             List<Project_Team__c> ProTEams= [Select Id,User__c,User__r.Email,User__r.Name,User__r.Phone from Project_Team__c where project__c=: ProjectId];
             return ProTEams;
         }
@@ -357,7 +322,7 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static List<Project__c> getProListByDefaultPro(){
         List<Project_Team__c> ptList = [SELECT Id,Project__r.Name,Project__r.Account__c FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() ORDER BY Project__r.LastModifiedDate DESC LIMIT 1];
-        List<Project__c> proList = [SELECT Id,Name FROM Project__c WHERE Account__c =: ptList[0].Project__r.Account__c];
+        List<Project__c> proList = [SELECT Id,Project_Title__c FROM Project__c WHERE Account__c =: ptList[0].Project__r.Account__c ORDER BY LastModifiedDate DESC];
         return proList;
     }
     //GET PROJECT LIST BY DEFAULT PROJECT NAME(DEFAULT ACCOUNT NAME) FOR ASSIGN TO THE PROJECT DROUP DOWN ENDS
@@ -399,6 +364,21 @@ public class OverallStatusController {
         List<Account> accList = [SELECT Id,Name FROM Account where Id IN : accIdSet];
         return accList;
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Project__c> getProjectListByAccount(String AccountId){
+        // system.debug('getProjectListByAccount>UserInfo.getUserId()>>'+UserInfo.getUserId());
+        System.debug('AccountId>>'+AccountId);
+         return [SELECT Id,Name,Project_Title__c FROM Project__c WHERE Account__c =: AccountId];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Project_Team__c> getDefaultProject(){
+        system.debug('UserInfo.getUserId()>>'+UserInfo.getUserId());
+        return [SELECT Id,Project__c FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() ORDER BY Project__r.LastModifiedDate DESC LIMIT 1];
+    }
+
+
 
 
 //---------------------------getCensusGeoDataList-----------------------------STARTS---------------------------getCensusGeoDataList-------------
@@ -495,40 +475,6 @@ public class OverallStatusController {
         return [SELECT Id,User__c,Project__r.Name,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId()];
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<Project__c> getProjectListByAccount(String AccountId){
-        // system.debug('getProjectListByAccount>AccountId>>'+AccountId);
-        // system.debug('getProjectListByAccount>UserInfo.getUserId()>>'+UserInfo.getUserId());
-        //return [SELECT Id,Project__r.Name,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() AND AccountId__c=: AccountId];
-        System.debug('AccountId>>'+AccountId);
-         return [SELECT Id,Name,Project_Title__c FROM Project__c WHERE Account__c =: AccountId];
-    }
-
-    @AuraEnabled(cacheable=true)
-    public static List<Project_Team__c> getDefaultProject(){
-        system.debug('UserInfo.getUserId()>>'+UserInfo.getUserId());
-        return [SELECT Id,User__c,Project__r.Name,Project__c FROM Project_Team__c WHERE User__c =: UserInfo.getUserId() ORDER BY Project__r.LastModifiedDate DESC LIMIT 1];
-    }
-
-    // @AuraEnabled(cacheable=true)
-    // public static Integer getAccCountForLoginUser(){
-    //     try {
-    //     set<Id> ProjectIdList = new set<Id>();
-    //     set<Id> AccIdList = new set<Id>();
-    //     system.debug('UserInfo.getUserId()>>'+UserInfo.getUserId());
-    //     List<Project_Team__c> proList = [SELECT Id,User__c,Project__r.Id FROM Project_Team__c WHERE User__c =: UserInfo.getUserId()];
-    //     for(Project_Team__c pro : proList){
-    //         ProjectIdList.add(pro.Project__r.Id);
-    //     }
-    //     Project__c accIdFromProject = [SELECT Id, Account__c FROM Project__c WHERE Id IN ProjectIdList];
-    //     for(Project_Team__c acc : accIdFromProject){
-    //         AccIdList.add(acc.Account__c);
-    //     }
-    //     }
-    //     catch (Exception e) {
-    //         throw new AuraHandledException(e.getMessage());
-    //     }
-    // }
 
     @AuraEnabled(cacheable=true)
     public static List<Project__c> getDefaultProNameByProFilter(String ProjectId){
