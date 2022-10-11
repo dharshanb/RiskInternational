@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>OverallStatusController</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Risk_International</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>Dashboard</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>Overall_Status</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>modalPopoupForCreatept</members>
+		<members>modalPopupForCensusRecords</members>
+		<members>modalPopupForContact</members>
+		<members>overallStatus</members>
+		<members>previewFileModal</members>
+		<members>previewFileThumbnailCard</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>ContactIconPicture</members>
+		<name>StaticResource</name>
+	</types>
+	<version>55.0</version>
+</Package>
