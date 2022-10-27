@@ -2,72 +2,53 @@
     <!-- <span href="#" class="active-tab" data-tab-id="tab1">OVERALL BUDGET</span> -->
     <div class="action1" style="background-color:white">
 
-        <!-- OVERALL BUDGET STARTS-->
-        <div onclick={handleAction} class="action11 slds-box slds-box_small active-tab" data-tab-id="tab1" style="width: 33.33%; display: inline-block;">
-            <center><h1>OVERALL BUDGET</h1></center><br/>
-            <div>
-                <div style="width: 50%; display: inline-block;" class="slds-p-bottom_medium slds-text-align_center">
-                    <div style="FONT-SIZE: X-LARGE;font-weight: 400;"></div><br/>
-                    YTD Pulse
-                </div>
+        <!-- SIDEBAR NAVIGATION HEAD STARTS -->
+        <div style="width: 5%; display: inline-block;background-color: #03a18c;">
+            <!-- SIDEBAR NAVIGATION TAB 1 STARTS-->
+            <div onclick={handleAction} class="actionSidebar slds-box_small active-tab" data-tab-id="tab1" style="width: 40px;height: 42px;margin: 226px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+                <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:home" alternative-text="home" title="home"></lightning-icon></center><br/><br/>
+            </div>
+            <!-- SIDEBAR NAVIGATION TAB 1 ENDS-->
 
-                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                    <div style="FONT-SIZE: X-LARGE;font-weight: 400;">745K</div><br/>
-                    $Surplus this month
-                </div>
+            <!-- SIDEBAR NAVIGATION TAB 2 STARTS-->
+            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="tab2" style="width: 40px;height: 42px;margin: 0px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+                <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:case" alternative-text="case" title="case"></lightning-icon></center>
+            </div>
+            <!-- SIDEBAR NAVIGATION TAB 2 ENDS-->
+
+            <!-- SIDEBAR NAVIGATION TAB 3 STARTS-->
+            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="tab3" style="width: 40px;height: 42px;margin: 0px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+                <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:approval" alternative-text="approval" title="approval"></lightning-icon></center><br/>
+            </div>
+            <!-- SIDEBAR NAVIGATION TAB 3 ENDS-->
+
+            <!-- SIDEBAR NAVIGATION TAB 4 STARTS-->
+            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="tab4" style="width: 40px;height: 42px;margin: 0px 11px 226px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+                <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:notification" alternative-text="notification" title="notification"></lightning-icon></center><br/>
+            </div>
+            <!-- SIDEBAR NAVIGATION TAB 4 ENDS-->
+        </div>
+        <!-- SIDEBAR NAVIGATION HEAD ENDS -->
+
+        <!-- SIDEBAR NAVIGATION BODY STARTS -->
+        <div style="width: 95%; display: inline-block;">
+            <div class="tab slds-visible" data-id="tab1">
+                TAB1
+            </div>
+
+            <div class="tab slds-hidden" data-id="tab2">
+                TAB2
+            </div>
+
+            <div class="tab slds-hidden" data-id="tab3">
+                TAB3
+            </div>
+            <div class="tab slds-hidden" data-id="tab4">
+                TAB4
             </div>
         </div>
-        <!-- OVERALL BUDGET ENDS-->
+        <!-- SIDEBAR NAVIGATION BODY ENDS -->
 
-        <!-- TOTAL ENROLLMENT 2 STARTS-->
-        <div onclick={handleAction} class="action11 slds-box slds-box_small" data-tab-id="tab2" style="width: 33.33%; display: inline-block;">
-            <center><h1>TOTAL ENROLLMENT</h1></center>
-            <div>
-                <div style="width: 50%; display: inline-block;" class="slds-p-bottom_medium slds-text-align_center">
-                    <div style="FONT-SIZE: X-LARGE;font-weight: 400;">"{getEmpCount}"</div><br/>
-                    Employee
-                </div>
-
-                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                    <div style="FONT-SIZE: X-LARGE;font-weight: 400;">"{getLivesCount}"</div><br/>
-                    Lives
-                </div>
-            </div>
-        </div>
-        <!-- TOTAL ENROLLMENT 2 ENDS-->
-
-        <!-- OVERALL CLAIM COSTS 3 STARTS-->
-        <div onclick={handleAction} class="action11 slds-box slds-box_small" data-tab-id="tab3" style="width: 33.33%; display: inline-block;">
-            <center><h1>OVERALL CLAIM COSTS</h1></center><br/>
-            <div>
-                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                        <lightning-icon icon-name="standard:document_reference" alternative-text="document_reference" title="document_reference"></lightning-icon>
-                    <br/>
-                <div style="FONT-SIZE:LARGE;font-weight: 400;">$756</div><br/>
-                Medical Claims
-                </div>
-
-                <div style="width: 50%; display: inline-block;" class="slds-text-align_center">
-                        <lightning-icon icon-name="standard:med_rec_statement_recommendation" alternative-text="med_rec_statement_recommendation" title="med_rec_statement_recommendation"></lightning-icon>
-                    <br/>
-                    <div style="FONT-SIZE:LARGE;font-weight: 400;">$756</div><br/>
-                    RX Claims(after rebate)
-                </div>
-            </div>
-        </div>
-        <!-- OVERALL CLAIM COSTS 3 ENDS-->
-
-        <div class="tab slds-visible" data-id="tab1">
-            TAB1
-        </div>
-
-        <div class="tab slds-hidden" data-id="tab2">
-            TAB2
-        </div>
-
-        <div class="tab slds-hidden" data-id="tab3">
-            TAB3
-        </div>
     </div>
 
 </template>

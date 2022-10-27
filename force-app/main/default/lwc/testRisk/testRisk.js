@@ -12,25 +12,26 @@ export default class TestingOverallStatus extends LightningElement {
     objectApiName = PROJECT_TEAM_OBJECT;
     fields = [PT_NAME_FIELD,PT_PROJECT_FIELD,PT_USER_FIELD,PT_CONTACT_FIELD];
 
-    handleAction(event){
-        alert('1');
-    }
+    // handleAction(event){
+    //     alert('1');
+    // }
 
-    handleAction(event){
-        alert('2');
-    }
+    // handleAction(event){
+    //     alert('2');
+    // }
 
-    handleAction(event){
-        alert('3');
-    }
+    // handleAction(event){
+    //     alert('3');
+    // }
 
     renderedCallback(){
-        this.template.querySelectorAll("div.action11").forEach((element) => {
+        //NAVIGATION SIDEBAR STARTS
+        this.template.querySelectorAll("div.actionSidebar").forEach((element) => {
         element.addEventListener("click", (event)=>{
         let target = event.currentTarget.dataset.tabId;
             console.log('target>>'+target);
 
-        this.template.querySelectorAll("div.action11").forEach((tabel) => {
+        this.template.querySelectorAll("div.actionSidebar").forEach((tabel) => {
             console.log('tabel>>'+tabel);
         if(tabel === element){
         tabel.classList.add("active-tab");
@@ -48,5 +49,6 @@ export default class TestingOverallStatus extends LightningElement {
         this.template.querySelector('[data-id="'+target+'"]').classList.add("slds-visible");
         });
         });
+        //NAVIGATION SIDEBAR ENDS
         }
 }

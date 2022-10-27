@@ -1,6 +1,7 @@
 .active-tab{
-    border-color: blue;
-    border-width: unset;
+    /* border-color: blue;
+    border-width: unset; */
+    background-color: #f5aa42;
 }
 
 /* .active-tab-content{
