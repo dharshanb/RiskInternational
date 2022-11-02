@@ -123,6 +123,57 @@ public class OverallStatusController {
     }
     //GET UNIQUE MEDICAL PLAN ENDS
 
+    //GET RI INTERNAL USERS STARTS
+    @AuraEnabled(cacheable=true)
+    public static List<User> getIntUsers(String AccountId) {
+        System.debug('AccountId>>'+AccountId);
+        Set<User> userSet = new Set<User>();
+        List<User> userList = new List<User>();
+
+        List<User> userOnlyList = [SELECT Id, Name FROM User WHERE Profile.UserLicense.Name =: 'Salesforce' AND IsPortalEnabled =: false];
+        for(User user : userOnlyList){
+            userSet.add(user);
+        }
+
+        List<Contact> contactList = [SELECT Id,Name,(SELECT Id, Name FROM Users) FROM Contact WHERE AccountId =: AccountId];
+        for(Contact con : contactList){
+            for(User user : con.Users){
+                userSet.add(user);
+            }
+        }
+
+        for(User setUser : userSet){
+            userList.add(setUser);
+        }
+        System.debug('userList>>'+userList);
+        return userList;
+    }
+    //GET RI INTERNAL USERS ENDS
+
+    //CREATE PARTNER TEAM STARTS
+    @AuraEnabled
+    public static String createPTRec(String AccountId,String UserId,String ProjectId) {
+        System.debug('AccountId>>'+AccountId);
+        System.debug('UserId>>'+UserId);
+        System.debug('ProjectId>>'+ProjectId);
+        try {
+        Project_Team__c ptObj = new Project_Team__c(User__c = UserId,Project__c = ProjectId);
+        upsert ptObj;
+        System.debug('ptObj.Id>>'+ptObj.Id);
+            if(ptObj.Id <> NULL){
+                return 'success';
+            }
+            else {
+                return 'error';
+            }
+        }
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    //CREATE PARTNER TEAM ENDS
+
+
     //GET MAP DATA STARTS
     @AuraEnabled(cacheable=true)
     public static Map<Id,AggregateResult> getMapData(String ProjectId) {
@@ -310,7 +361,7 @@ public class OverallStatusController {
     @AuraEnabled(cacheable=true)
     public static Project__c getAccountByProFilter(String ProjectId) {
         try {
-            Project__c accNameFromProject = [SELECT Id,Name,Project_Title__c,Account__r.Name FROM Project__c WHERE Id =: ProjectId];
+            Project__c accNameFromProject = [SELECT Id,Name,Project_Title__c,Account__r.Name,Account__r.Id FROM Project__c WHERE Id =: ProjectId];
             return accNameFromProject;
         }
         catch (Exception e) {
@@ -491,5 +542,60 @@ public class OverallStatusController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    //EMAIL CHECK STARTS
+    @AuraEnabled
+    public static List<SObject> search(String searchString) {
+        List<SObject> searchList = new List<SObject>();
+        try {
+            String searchStr = '*' + searchString + '*';
+            String searchquery =
+                'FIND\'' +
+                searchStr +
+                '\'IN ALL FIELDS RETURNING Contact(id, name, email where email != null), User(id, name, email where email != null AND isActive = true) LIMIT 10';
+            List<List<SObject>> searchResult = search.query(searchquery);
+            for (List<SObject> curList : searchResult) {
+                searchList.addAll(curList);
+            }
+            system.debug('searchList:::' + searchList.size());
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        return searchList;
+    }
+
+
+    @AuraEnabled
+    public static void sendEmailController(String emailDetailStr) {
+        EmailWrapper emailDetails = (EmailWrapper) JSON.deserialize(emailDetailStr, EmailWrapper.class);
+        Messaging.reserveSingleEmailCapacity(1);
+        try {
+            messaging.SingleEmailMessage mail = new messaging.SingleEmailMessage();
+
+            // User email = [SELECT Id, Email FROM User where Id =: UserInfo.getUserId()];
+            // mail.setOrgWideEmailAddressId(email(0).Email);
+            System.debug('emailDetails.toAddress>>'+emailDetails.toAddress+'<>');
+            mail.setToAddresses(emailDetails.toAddress);
+            mail.setCcAddresses(emailDetails.ccAddress);
+            mail.setReplyTo('test.k@xyz.com');
+            mail.setSenderDisplayName('Test');
+            mail.setSubject(emailDetails.subject);
+            mail.setHtmlBody(emailDetails.body);
+            mail.setEntityAttachments(emailDetails.files);
+            Messaging.sendEmail(new List<messaging.SingleEmailMessage>{ mail });
+        } catch (exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    Class EmailWrapper {
+        public List<String> fromAddress;
+        public List<String> toAddress;
+        public List<String> ccAddress;
+        public String subject;
+        public String body;
+        public List<String> files;
+    }
+    //EMAIL CHECK ENDS
 
 }

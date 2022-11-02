@@ -39,6 +39,8 @@ import getCensusGeoDataList from "@salesforce/apex/OverallStatusController.getCe
 import getMapData from '@salesforce/apex/OverallStatusController.getMapData';
 import getMapDataByProFilter from '@salesforce/apex/OverallStatusController.getMapDataByProFilter';
 
+import getIntUsers from '@salesforce/apex/OverallStatusController.getIntUsers';
+
 const actions = [
     { label: 'Show details', name: 'show_details' },
     { label: 'Delete', name: 'delete' },
@@ -148,6 +150,8 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
     handleChangeForProject(Event) {
         this.filterByProject = Event.detail.value;
         this.projectIdToCreatePt = Event.detail.value;
+        this.placeholderLives = '';
+        this.placeholderMedPlan = '';
 
         //GET CENSUS DATA(DEMOGRAPHICS AND GEOGRAPHIES) BY SELECTING THE PROJECT STARTS
         getCensusGeoDataList({
@@ -188,6 +192,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
             let arr = [];
             //ADD "ALL PLANS" TO ARRAY STARTS
             var arr1 = {label: "All Plans",value: "All"};
+            this.placeholderMedPlan = 'All Plans';
             arr.push(arr1);
             //ADD "ALL PLANS" TO ARRAY ENDS
             for (let i = 0; i < resust.length; i++) {
@@ -266,6 +271,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
             this.accName = resust.Account__r.Name;
             this.placeholderAccount = resust.Account__r.Name;
             this.accNameForConPopup = resust.Account__r.Name;
+            this.accountIdToCreatePt = data.Account__r.Id;
         })
         .catch(error=>{
             this.repError = error;
@@ -426,6 +432,7 @@ export default class OverallStatus extends NavigationMixin(LightningElement) {
         })
         .then(resust=>{
             this.getLivesCount = resust;
+            this.placeholderLives = 'All lives ('+this.getLivesCount+')';
         })
         .catch(error=>{
             this.repError = error;
@@ -467,11 +474,85 @@ handleAction3(event){
     this.tabLoaded3 = true;
 }
 
+handleSidebarAction1(event){
+    this.tabLoaded1 = true;
+    this.tabLoaded2 = false;
+    this.tabLoaded3 = false;
+
+    this.template.querySelector('[data-tab-id="tab1"]').classList.add("active-tab");
+    this.template.querySelector('[data-tab-id="tab2"]').classList.remove("active-tab");
+    this.template.querySelector('[data-tab-id="tab3"]').classList.remove("active-tab");
+
+    this.template.querySelector('[data-id="tab1"]').classList.add("slds-visible");
+    this.template.querySelector('[data-id="tab2"]').classList.add("slds-hidden");
+    this.template.querySelector('[data-id="tab3"]').classList.add("slds-hidden");
+
+    this.template.querySelector('[data-id="tab1"]').classList.remove("slds-hidden");
+    this.template.querySelector('[data-id="tab2"]').classList.remove("slds-visible");
+    this.template.querySelector('[data-id="tab3"]').classList.remove("slds-visible");
+}
+
+handleSidebarAction2(event){
+    //NAVIGATION TOPBAR STARTS
+        this.template.querySelector('[data-id="tab1"]').classList.add("slds-hidden");
+        this.template.querySelector('[data-id="tab2"]').classList.add("slds-hidden");
+        this.template.querySelector('[data-id="tab3"]').classList.add("slds-hidden");
+    //NAVIGATION TOPBAR ENDS
+}
+
+handleSidebarAction3(event){
+
+    //NAVIGATION TOPBAR STARTS
+        this.template.querySelector('[data-id="tab1"]').classList.add("slds-hidden");
+        this.template.querySelector('[data-id="tab2"]').classList.add("slds-hidden");
+        this.template.querySelector('[data-id="tab3"]').classList.add("slds-hidden");
+    //NAVIGATION TOPBAR ENDS
+
+}
+
+handleSidebarAction4(event){
+
+    //NAVIGATION TOPBAR STARTS
+        this.template.querySelector('[data-id="tab1"]').classList.add("slds-hidden");
+        this.template.querySelector('[data-id="tab2"]').classList.add("slds-hidden");
+        this.template.querySelector('[data-id="tab3"]').classList.add("slds-hidden");
+    //NAVIGATION TOPBAR ENDS
+
+}
+
     //MAIN TABS STARTS
     renderedCallback(){
-        this.template.querySelectorAll("div.action11").forEach((element) => {
+        //NAVIGATION SIDEBAR STARTS
+        this.template.querySelectorAll("div.actionSidebar").forEach((element) => {
             element.addEventListener("click", (event)=>{
             let target = event.currentTarget.dataset.tabId;
+                console.log('target sidebar>>'+target);
+
+            this.template.querySelectorAll("div.actionSidebar").forEach((tabel) => {
+                console.log('tabel>>'+tabel);
+            if(tabel === element){
+            tabel.classList.add("active-sidebar-tab");
+            }
+            else{
+            tabel.classList.remove("active-sidebar-tab");
+            }
+            });
+
+            this.template.querySelectorAll(".sidebartab").forEach(tabdata=>{
+            tabdata.classList.add("slds-hidden");
+            });
+
+            this.template.querySelector('[data-id="'+target+'"]').classList.remove("slds-hidden");
+            this.template.querySelector('[data-id="'+target+'"]').classList.add("slds-visible");
+            });
+            });
+            //NAVIGATION SIDEBAR ENDS
+
+            //NAVIGATION TOPBAR STARTS
+            this.template.querySelectorAll("div.action11").forEach((element) => {
+            element.addEventListener("click", (event)=>{
+            let target = event.currentTarget.dataset.tabId;
+            console.log('target topbar>>'+target);
             this.template.querySelectorAll("div.action11").forEach((tabel) => {
             if(tabel === element){
             tabel.classList.add("active-tab");
@@ -487,6 +568,8 @@ handleAction3(event){
             this.template.querySelector('[data-id="'+target+'"]').classList.add("slds-visible");
             });
             });
+            //NAVIGATION TOPBAR ENDS
+
         }
     //MAIN TABS ENDS
 
@@ -759,7 +842,6 @@ handleAction3(event){
     }
 
     get optionsPlan(){
-        //console.log('get optionsPlan() this.medPlanList>>'+this.medPlanList);
         return this.medPlanList;
     }
     //LOAD AND HANDLE LIST OF VALUES TO MEDICAL PLAN DROUPDOWN ENDS
@@ -778,6 +860,7 @@ handleAction3(event){
         });
     }
     // NAVIGATE TO CONTACT RECORD PAGE ENDS
+
 
     // NAVIGATE TO FILES RECORD PAGE STARTS
     navToFiles(Event) {
@@ -862,6 +945,7 @@ handleAction3(event){
             this.placeholderAccount = data.Account__r.Name;
             this.placeholderProName = data.Project_Title__c;
             this.accNameForConPopup = data.Account__r.Name;
+            this.accountIdToCreatePt = data.Account__r.Id;
         }
         else if (error) {
         this.dispatchEvent(
@@ -875,7 +959,6 @@ handleAction3(event){
     }
     //GET ACCOUNT NAME FOR ASSIGN TO THE DROUP DOWN ENDS
 
-
     //POP UP WINDOW OF CONTACTS STARTS
     handlePUPForContact(){
         const modal = this.template.querySelector("c-modal-Popup-For-Contact");
@@ -883,9 +966,58 @@ handleAction3(event){
     }
     //POP UP WINDOW OF CONTACTS ENDS
 
+
+    // POP UP TO SEND EMAIL STARTS
+    fromAddress
+    toAddress
+    handleSendMail(Event) {
+        var questionName = Event.currentTarget.id;
+        this.toAddress = questionName.substring(0,questionName.indexOf("-"));
+
+        // //LOAD TO & FROM ADDRESS STARTS
+        // getIntUsers({
+        //     AccountId : this.accountidtocreatept
+        // })
+        // .then(resust=>{
+        //     this.fromAddress = 'dharshanbk100@gmail.com';
+        // })
+        // .catch(error=>{
+        //     this.repError = error;
+        // });
+        // //LOAD TO & FROM ADDRESS ENDS
+
+        const modal1 = this.template.querySelector("c-modal-Popoup-For-Sendmail");
+        modal1.showSendEmail();
+    }
+    // POP UP TO SEND EMAIL ENDS
+
+
     //POP UP WINDOW OF PROJECT TEAM REOCORD CREATION STARTS
     projectIdToCreatePt
+    accountIdToCreatePt
+    userList
     newProjectTeam(){
+
+        //LOAD LIST OF VALUES TO USERS DROUPDOWN FOR CREATE PROJECT USERS STARTS
+        getIntUsers({
+            AccountId : this.accountidtocreatept
+        })
+        .then(resust=>{
+            //IF CONDITION STARTS
+            let arr = [];
+            for (let i = 0; i < resust.length; i++) {
+            var user = resust[i];
+            var arr1 = {label: user.Name,value: user.Id};
+            arr.push(arr1);
+            }
+            this.userList = arr;
+            //IF CONDITION ENDS
+        })
+        .catch(error=>{
+            this.repError = error;
+        });
+        //LOAD LIST OF VALUES TO USERS DROUPDOWN FOR CREATE PROJECT USERS ENDS
+
         const modal1 = this.template.querySelector("c-modal-Popoup-For-Creatept");
         modal1.showPtRecCreate();
     }
@@ -895,8 +1027,10 @@ handleAction3(event){
     wiredActForPtCreate
     wiredPtCretaeForConCount
     handleUpdate(){
+        console.log('refreshApex after creating Project Team Record starts');
         refreshApex(this.wiredActForPtCreate);
         refreshApex(this.wiredPtCretaeForConCount);
+        console.log('refreshApex after creating Project Team Record ends');
     }
     //UPDATE THE CONTACT RECORDS WHEN POP UP OF PROJECT TEAM REOCORD CLOSED  ENDS
 

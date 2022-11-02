@@ -8,28 +8,57 @@
           aria-describedby="modal-content-id-1"
           class="slds-modal slds-fade-in-open">
           <div class="slds-modal__container">
+
             <!-- Header Start -->
             <header class="slds-modal__header">
-              <lightning-button-icon
-                class="slds-modal__close"
-                title="Close"
-                icon-name="utility:close"
-                icon-class="slds-button_icon-inverse"
-                onclick={handlePtRecCreateClose}
-              ></lightning-button-icon>
-    
+              <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close" icon-class="slds-button_icon-inverse" onclick={handlePtRecCreateClose}></lightning-button-icon>
+
               <h2 class="slds-text-heading_medium slds-hyphenate header-string">
                 New Project Team
               </h2>
             </header>
             <!-- Header End -->
+
+            <!-- BODY STARTS -->
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <lightning-record-form
-                    object-api-name={objectApiName}
-                    fields={fields}
-                    onsubmit={handleSubmit}>
-                    </lightning-record-form>
+                    <!-- <lightning-record-form object-api-name={objectApiName} fields={fields} onsubmit={handleSubmit}></lightning-record-form> -->
+
+                    <!--FILTER STARTS-->
+                    <div>
+                        <div style="">
+                        <lightning-combobox
+                            name="progress"
+                            label="Users"
+                            value={defaultName}
+                            placeholder="Users"
+                            options={optionsUsers}
+                            onchange={handleChangeForUser} >
+                        </lightning-combobox>
+                        </div>
+
+                        <!-- <div style="width: 280px; padding-left: 10px; display: inline-block;">
+                        <lightning-combobox
+                            name="progress"
+                            label="Contacts"
+                            value={defaultPlan}
+                            placeholder="Contacts"
+                            options={optionsPlan}
+                            onchange={handleChangeForPlan} >
+                        </lightning-combobox>
+                        </div> -->
+                    </div><br/>
+                    <!--FILTER ENDS-->
+
             </div>
+            <!-- BODY ENDS -->
+
+            <!-- FOOTER STARTS -->
+            <footer class="slds-modal__footer">
+                    <center><div style="display: inline-block;"><lightning-button variant="Neutral" label="Cancel" title="Cancel" onclick={handlePtRecCreateClose} class="slds-m-left_x-small"></lightning-button></div>
+                    <div style="display: inline-block;"><lightning-button variant="brand" label="Save" title="Save" onclick={handleSubmit} class="slds-m-left_x-small"></lightning-button></div></center>
+            </footer>
+            <!-- FOOTER ENDS -->
+
           </div>
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>

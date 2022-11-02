@@ -34,14 +34,14 @@ export default class TestingOverallStatus extends LightningElement {
         this.template.querySelectorAll("div.actionSidebar").forEach((tabel) => {
             console.log('tabel>>'+tabel);
         if(tabel === element){
-        tabel.classList.add("active-tab");
+        tabel.classList.add("active-sidebar-tab");
         }
         else{
-        tabel.classList.remove("active-tab");
+        tabel.classList.remove("active-sidebar-tab");
         }
         });
 
-        this.template.querySelectorAll(".tab").forEach(tabdata=>{
+        this.template.querySelectorAll(".sidebartab").forEach(tabdata=>{
         tabdata.classList.add("slds-hidden");
         });
 

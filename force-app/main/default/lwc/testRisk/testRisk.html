@@ -5,25 +5,25 @@
         <!-- SIDEBAR NAVIGATION HEAD STARTS -->
         <div style="width: 5%; display: inline-block;background-color: #03a18c;">
             <!-- SIDEBAR NAVIGATION TAB 1 STARTS-->
-            <div onclick={handleAction} class="actionSidebar slds-box_small active-tab" data-tab-id="tab1" style="width: 40px;height: 42px;margin: 226px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+            <div onclick={handleAction} class="actionSidebar slds-box_small active-sidebar-tab" data-tab-id="sidebartab1" style="width: 40px;height: 42px;margin: 226px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
                 <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:home" alternative-text="home" title="home"></lightning-icon></center><br/><br/>
             </div>
             <!-- SIDEBAR NAVIGATION TAB 1 ENDS-->
 
             <!-- SIDEBAR NAVIGATION TAB 2 STARTS-->
-            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="tab2" style="width: 40px;height: 42px;margin: 0px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="sidebartab2" style="width: 40px;height: 42px;margin: 0px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
                 <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:case" alternative-text="case" title="case"></lightning-icon></center>
             </div>
             <!-- SIDEBAR NAVIGATION TAB 2 ENDS-->
 
             <!-- SIDEBAR NAVIGATION TAB 3 STARTS-->
-            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="tab3" style="width: 40px;height: 42px;margin: 0px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="sidebartab3" style="width: 40px;height: 42px;margin: 0px 11px 10px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
                 <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:approval" alternative-text="approval" title="approval"></lightning-icon></center><br/>
             </div>
             <!-- SIDEBAR NAVIGATION TAB 3 ENDS-->
 
             <!-- SIDEBAR NAVIGATION TAB 4 STARTS-->
-            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="tab4" style="width: 40px;height: 42px;margin: 0px 11px 226px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
+            <div onclick={handleAction} class="actionSidebar slds-box_small" data-tab-id="sidebartab4" style="width: 40px;height: 42px;margin: 0px 11px 226px;border-radius: var(--lwc-borderRadiusMedium,0.25rem);">
                 <center><lightning-icon size="xx-small" class="slds-icon_medium" icon-name="utility:notification" alternative-text="notification" title="notification"></lightning-icon></center><br/>
             </div>
             <!-- SIDEBAR NAVIGATION TAB 4 ENDS-->
@@ -32,18 +32,18 @@
 
         <!-- SIDEBAR NAVIGATION BODY STARTS -->
         <div style="width: 95%; display: inline-block;">
-            <div class="tab slds-visible" data-id="tab1">
+            <div class="sidebartab slds-visible" data-id="sidebartab1">
                 TAB1
             </div>
 
-            <div class="tab slds-hidden" data-id="tab2">
+            <div class="sidebartab slds-hidden" data-id="sidebartab2">
                 TAB2
             </div>
 
-            <div class="tab slds-hidden" data-id="tab3">
+            <div class="sidebartab slds-hidden" data-id="sidebartab3">
                 TAB3
             </div>
-            <div class="tab slds-hidden" data-id="tab4">
+            <div class="sidebartab slds-hidden" data-id="sidebartab4">
                 TAB4
             </div>
         </div>
