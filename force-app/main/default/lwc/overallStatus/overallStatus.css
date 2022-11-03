@@ -1,0 +1,112 @@
+/* TABSET STYLE STARTS */
+/* .tab-menu ul {
+margin: 0;
+padding: 0;
+}
+
+.tab-menu ul li{
+display: inline-block;
+list-style-type: none;
+} */
+
+
+lightning-card{
+    --sds-c-card-color-background: whitesmoke;
+}
+
+/* span{
+text-decoration: none;
+padding: 7px 35px;
+color: rgb(0, 0, 0);
+background-color: #ffffff;
+} */
+
+.active-tab{
+/* border-color: blue; */
+border-width: unset;
+border: 2px solid #2a9fd8;
+}
+
+/* .tab{
+display: none;
+}
+
+.active-tab-content{
+display: block;
+} */
+
+/* .tab h2{
+font-size: 20px;
+}
+
+.tab p{
+font-size: 15px;
+} */
+/* TABSET STYLE ENDS */
+
+.imgClass{
+border-radius: var(--1wc-borderRadiusCircle, 45%);
+width: 80px;
+}
+
+.btns{
+    display: inline-block;
+    width:33.33%;
+    text-align: -webkit-center;
+    border-style: ridge;
+}
+.btns button{
+    width:33.33%;
+    padding:20px;
+}
+
+/* .navigation  hover {
+    transform: scale(1,8);
+} */
+
+.red-circle {
+    height: 15px;
+    width: 15px;
+    background-color:red;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .yellow-circle {
+    height: 15px;
+    width: 15px;
+    background-color:yellow;
+    color : yellow;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .green-circle {
+    height: 15px;
+    width: 15px;
+    background-color:green;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .blue-icon{
+    --lwc-colorTextIconDefault: #3989c6;
+}
+.slds-modal__container{
+    width: 90% !important;
+    max-width: 90% !important;
+    
+}
+
+.yellow-text{
+  color: yellow;
+}
+.active-sidebar-tab{
+  background-color: #f2b45e;
+}
+
+.circle{
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  color: #000;
+  background: var(--bg);
+  text-indent: -1000px;
+}
